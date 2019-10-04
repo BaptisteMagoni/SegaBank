@@ -3,10 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/segabank/bo/Compte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/bo/Compte.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/segabank/bo/CompteEpargne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/bo/CompteEpargne.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/segabank/bo/ComptePayant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/bo/ComptePayant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/segabank/bo/CompteSimple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/bo/CompteSimple.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SegaBank.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SegaBank.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/resources/db.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ressources/sql/segabank_create_bd.sql" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sql/segabank_create_bd.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ressources/sql/segabank_create_bd_v2.sql" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sql/segabank_create_bd_v2.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ressources/sql/segabank_insert_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sql/segabank_insert_data.sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,9 +32,17 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../dev-java/mysql-connector-java-8.0.17.jar!/" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="A:\EPSI\JAVA\Projects\SegaBank\resources" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="A:\EPSI\JAVA\Projects\SegaBank\ressources\sql" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
