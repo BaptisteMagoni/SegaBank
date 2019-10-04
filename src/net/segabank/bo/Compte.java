@@ -20,6 +20,8 @@ public abstract class Compte {
         this.solde += montant;
     }
 
-    public abstract void retrait(int montant);
+    public void retrait(int montant){
+        this.solde -= montant;
+    }
 
 }

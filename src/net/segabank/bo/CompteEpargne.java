@@ -8,13 +8,16 @@ public class CompteEpargne extends Compte {
         this.tauxInteret = tauxInteret;
     }
 
-    @Override
-    public void retrait(int montant) {
-
+    public void calculInteret(){
+        this.solde += solde*1+(tauxInteret/100);
     }
 
     @Override
     public String toString() {
-        return null;
+        return "CompteEpargne{" +
+                "tauxInteret=" + tauxInteret +
+                ", id=" + id +
+                ", solde=" + solde +
+                '}';
     }
 }
