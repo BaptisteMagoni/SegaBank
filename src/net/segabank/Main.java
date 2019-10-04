@@ -1,8 +1,8 @@
-package com.company;
+package net.segabank;
 
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+
     }
 }
