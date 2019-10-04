@@ -1,10 +1,11 @@
 package net.segabank.bo;
 
 public class CompteEpargne extends Compte {
+    private int tauxInteret;
 
-    @Override
-    public void ajout(int montant) {
-
+    public CompteEpargne(int id, int solde, int tauxInteret) {
+        super(id, solde);
+        this.tauxInteret = tauxInteret;
     }
 
     @Override

@@ -4,9 +4,8 @@ public class ComptePayant extends Compte {
 
     private static int interet = 5;
 
-    @Override
-    public void ajout(int montant) {
-        
+    public ComptePayant(int id, int solde) {
+        super(id, solde);
     }
 
     @Override

@@ -2,9 +2,10 @@ package net.segabank.bo;
 
 public class CompteSimple extends Compte{
 
-    @Override
-    public void ajout(int montant) {
+    private int decouvert;
 
+    public CompteSimple(int id, int solde) {
+        super(id, solde);
     }
 
     @Override
