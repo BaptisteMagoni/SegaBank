@@ -34,30 +34,35 @@ public class Main {
                     dspMenuCompte();
                     SC.nextLine();
                     break;
-                // Afficher la liste des agences
+                // Création compte
                 case 3:
+                    //TODO: Création de comptes
+                    break;
+                // Afficher la liste des agences
+                case 4:
                     dspAllAgences();
                     SC.nextLine();
                     break;
-                case 4:
+                case 5:
                     //TODO : Afficher les comptes pour une agence
                     dspMenuAgence();
                     SC.nextLine();
-                    break;
-                case 5:
                     break;
             }
             dspMenu();
             try{
                 action = SC.nextByte();
-                SC.nextLine();
-                if(action > 5 || action < 1) throw new Exception();
+                if(action > 6 || action < 1) throw new Exception();
             }catch( Exception e){
-                System.out.println("Veuillez saisir une option correct");
                 action = -1;
+                System.out.println("Veuillez saisir une option correct");
             }
-        }while(action != 5);
-        System.out.println("A bientôt sur segabank !");
+            SC.nextLine();
+        }while(action != 6);
+
+        System.out.println("╔════════════════════════════════════╗");
+        System.out.println("╠══════ A BIENTOT SUR SEGABANK ══════╣");
+        System.out.println("╚════════════════════════════════════╝");
     }
 
     public static void dspMenu(){
@@ -66,15 +71,15 @@ public class Main {
         System.out.println("╠════════════════════════════════════╣");
         System.out.println("║ 1  → Afficher la liste des comptes ║");
         System.out.println("║ 2  → Sélectionner un compte        ║");
-        System.out.println("║     ↳ Détails du compte            ║");
         System.out.println("║     ↳ Virement                     ║");
         System.out.println("║     ↳ Débit                        ║");
         System.out.println("║     ↳ Supprimmer le compte         ║");
         System.out.println("║     ↳ Exporter les opérations      ║");
-        System.out.println("║ 3  → Afficher la liste des agences ║");
-        System.out.println("║ 4  → Sélectionner une agence       ║");
+        System.out.println("║ 3  → Créer un compte               ║");
+        System.out.println("║ 4  → Afficher la liste des agences ║");
+        System.out.println("║ 5  → Sélectionner une agence       ║");
         System.out.println("║     ↳ Afficher tous les comptes    ║");
-        System.out.println("║ 5  → Quitter                       ║");
+        System.out.println("║ 6  → Quitter                       ║");
         System.out.println("╚════════════════════════════════════╝");
         System.out.println("");
         System.out.print("Saisir une action : ");
@@ -114,40 +119,36 @@ public class Main {
         do {
             switch (action) {
                 case 1:
-                    System.out.println("Détails du compte :");
-                    break;
-                case 2:
                     System.out.println("Virement");
                     break;
-                case 3:
+                case 2:
                     System.out.println("Débit");
                     break;
-                case 4:
+                case 3:
                     System.out.println("Supprimmer le compte");
                     break;
-                case 5:
+                case 4:
                     System.out.println("Exporter les opérations");
                     break;
             }
             System.out.println("╔════════════════════════════════════╗");
-            System.out.println("║     ↳ 1 Détails du compte          ║");
-            System.out.println("║     ↳ 2 Virement                   ║");
-            System.out.println("║     ↳ 3 Débit                      ║");
-            System.out.println("║     ↳ 4 Supprimmer le compte       ║");
-            System.out.println("║     ↳ 5 Exporter les opérations    ║");
-            System.out.println("║     ↳ 6 Retour                     ║");
+            System.out.println("║     ↳ 1 Virement                   ║");
+            System.out.println("║     ↳ 2 Débit                      ║");
+            System.out.println("║     ↳ 3 Supprimmer le compte       ║");
+            System.out.println("║     ↳ 4 Exporter les opérations    ║");
+            System.out.println("║     ↳ 5 Retour                     ║");
             System.out.println("╚════════════════════════════════════╝");
             System.out.println("");
             System.out.print("Saisir une action :");
             try{
                 action = SC.nextByte();
                 SC.nextLine();
-                if(action > 6 || action < 1) throw new Exception();
+                if(action > 5 || action < 1) throw new Exception();
             }catch(Exception e ){
                 action = -1;
                 System.out.println("Veuillez saisir une option correct");
             }
-        }while(action != 6);
+        }while(action != 5);
 
     }
 
@@ -198,11 +199,12 @@ public class Main {
             try {
                 agenceId = SC.nextInt();
                 SC.nextLine();
+                if(agenceId <=0 || agenceId > agences.size()) throw new Exception();
             }catch(Exception e){
                 agenceId = -1;
                 System.out.println("Choissisez une agence correct");
             }
-        }while(agenceId < 0 || agenceId > agences.size());
+        }while(agenceId <= 0 || agenceId > agences.size());
         Agence monAgence = agences.get(agenceId);
         System.out.println("Agence choisie : " + monAgence);
         return monAgence;
