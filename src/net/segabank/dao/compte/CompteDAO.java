@@ -39,13 +39,12 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     }
 
     @Override
-    public Compte delete(Compte object) throws SQLException, IOException, ClassNotFoundException {
+    public void delete(Compte object) throws SQLException, IOException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         try(PreparedStatement ps = con.prepareStatement(DELETE_COMPTE)){
             ps.setInt(1, object.getId());
             ps.executeUpdate();
         }
-        return null;
     }
 
     @Override
@@ -73,7 +72,7 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         Connection con = ConnectionManager.getConnection();
         try(PreparedStatement ps = con.prepareStatement(SELECT_ALL_COMPTE);
             ResultSet rs = ps.executeQuery()){
-            createCompte(comptes, rs);
+            comptes = createCompte(comptes, rs);
             ps.execute();
         }
         return comptes;
@@ -101,12 +100,13 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     public List<Compte> findCompteByIdAgence(Agence agence) throws SQLException, IOException, ClassNotFoundException {
         List<Compte> comptes = new ArrayList<>();
         Connection con = ConnectionManager.getConnection();
-        try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_BY_ID_AGENCE);
-            ResultSet rs = ps.executeQuery()){
+        try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_BY_ID_AGENCE)){
             ps.setInt(1, agence.getId());
-            createCompte(comptes, rs);
+            try(ResultSet rs = ps.executeQuery()) {
+                comptes = createCompte(comptes, rs);
+            }
         }
-        return null;
+        return comptes;
     }
 
     private List<Compte> createCompte(List<Compte> comptes, ResultSet rs) throws SQLException {
@@ -118,6 +118,7 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
             if(rs.getString("type_compte").equals(CompteType.PAYANT))
                 comptes.add(new ComptePayant(rs.getInt("id"), rs.getInt("solde")));
         }
+
         return comptes;
     }
 
