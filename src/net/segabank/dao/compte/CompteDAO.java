@@ -39,12 +39,13 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     }
 
     @Override
-    public void delete(Compte object) throws SQLException, IOException, ClassNotFoundException {
+    public Compte delete(Compte object) throws SQLException, IOException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         try(PreparedStatement ps = con.prepareStatement(DELETE_COMPTE)){
             ps.setInt(1, object.getId());
             ps.executeUpdate();
         }
+        return null;
     }
 
     @Override

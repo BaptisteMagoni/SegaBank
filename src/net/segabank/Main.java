@@ -13,7 +13,7 @@ import java.util.*;
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
-    private static final IDAOCompte<CompteType, Compte, Integer> COMPTE_DAO = new CompteDAO();
+    private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
     private static List<Compte> lesComptes;
 
@@ -83,6 +83,36 @@ public class Main {
 
     public static void dspMenuCompte(){
         byte action = -1;
+        int agenceId = -1;
+        Agence monAgence = null;
+        //TODO: Boucles for affiche toutes les agences
+        do{
+            try{
+                System.out.print("Choisir une agence : ");
+                agenceId = SC.nextInt();
+                SC.nextLine();
+            }catch(Exception e){
+                System.out.println("Choissisez une agence valable");
+            }
+        }while(agenceId < 0 || agenceId > agences.size());
+        monAgence = agences.get(agenceId);
+
+        /*List<Compte> lesCompteParAgence;
+        List<Compte> lesCompteParAgence = COMPTE_DAO.findCompteByIdAgence(monAgence);
+        Compte monCompte = null;
+        //TODO: Boucles for affiche tous les comptes
+        int compteId = -1;
+        do{
+            try{
+                System.out.print("Choisir un compte : ");
+                compteId = SC.nextInt();
+                SC.nextLine();
+            }catch(Exception e){
+                System.out.println("Choissisez un compte valable");
+            }
+        }while(compteId < 0 || compteId > lesCompteParAgence.size());*/
+
+
         do {
             switch (action) {
                 case 1:
