@@ -34,45 +34,53 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     @Override
     public void modify(Compte object, CompteType compteType, Agence agence) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = ConnectionManager.getConnection();
-        try (PreparedStatement ps = connection.prepareStatement(UPDATE_COMPTE)) {
-            actionArguments(object, compteType, ps, agence);
+        if(connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(UPDATE_COMPTE)) {
+                actionArguments(object, compteType, ps, agence);
+            }
         }
     }
 
     @Override
     public void delete(Compte object) throws SQLException, IOException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
-        try(PreparedStatement ps = con.prepareStatement(DELETE_COMPTE)){
-            ps.setInt(1, object.getId());
-            ps.executeUpdate();
+        Connection connection = ConnectionManager.getConnection();
+        if(connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(DELETE_COMPTE)) {
+                ps.setInt(1, object.getId());
+                ps.executeUpdate();
+            }
         }
     }
 
     @Override
     public void modifySolde(Compte object) throws SQLException, IOException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
-        try(PreparedStatement ps = con.prepareStatement(UPDATE_SOLDE_COMPTE)){
-            ps.setInt(1, object.getSolde());
-            ps.setInt(2, object.getId());
-            ps.execute();
+        Connection connection = ConnectionManager.getConnection();
+        if(connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(UPDATE_SOLDE_COMPTE)) {
+                ps.setInt(1, object.getSolde());
+                ps.setInt(2, object.getId());
+                ps.execute();
+            }
         }
     }
 
     @Override
     public List<Compte> findByTypeCompte(CompteType compteType) throws SQLException, IOException, ClassNotFoundException {
         List<Compte> comptes = new ArrayList<>();
-        Connection con = ConnectionManager.getConnection();
-        try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_TYPE);
-            ResultSet rs = ps.executeQuery()){
-            while(rs.next()) {
-                if(compteType.equals(compteType.SIMPLE))
-                    comptes.add(new CompteSimple(rs.getInt("id"), rs.getInt("solde"),  rs.getInt("decouvert")));
-                if(compteType.equals(compteType.EPARGNE))
-                    comptes.add(new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret")));
-                if(compteType.equals(compteType.PAYANT))
-                    comptes.add(new ComptePayant(rs.getInt("id"), rs.getInt("solde")));
+        Connection connection = ConnectionManager.getConnection();
+        if(connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(SELECT_COMPTE_TYPE);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (compteType.equals(compteType.SIMPLE))
+                        comptes.add(new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert")));
+                    if (compteType.equals(compteType.EPARGNE))
+                        comptes.add(new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret")));
+                    if (compteType.equals(compteType.PAYANT))
+                        comptes.add(new ComptePayant(rs.getInt("id"), rs.getInt("solde")));
+                }
+                ps.execute();
             }
-            ps.execute();
         }
         return comptes;
     }
@@ -80,27 +88,31 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     @Override
     public List<Compte> findAll() throws SQLException, IOException, ClassNotFoundException {
         List<Compte> comptes = new ArrayList<>();
-        Connection con = ConnectionManager.getConnection();
-        try(PreparedStatement ps = con.prepareStatement(SELECT_ALL_COMPTE);
-            ResultSet rs = ps.executeQuery()){
-            comptes = createCompte(comptes, rs);
+        Connection connection = ConnectionManager.getConnection();
+        if(connection != null){
+            try(PreparedStatement ps = connection.prepareStatement(SELECT_ALL_COMPTE);
+                ResultSet rs = ps.executeQuery()){
+                comptes = createCompte(comptes, rs);
+            }
         }
         return comptes;
     }
 
     @Override
     public Compte findCompteById(Integer integer) throws SQLException, IOException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
         Compte compte = null;
-        try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_BY_ID);
-            ResultSet rs = ps.executeQuery()){
-            while(rs.next()){
-                if(rs.getString("type_compte").equals(CompteType.SIMPLE.name()))
-                    compte = new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert"));
-                if(rs.getString("type_compte").equals(CompteType.EPARGNE.name()))
-                    compte = new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret"));
-                if(rs.getString("type_compte").equals(CompteType.PAYANT.name()))
-                    compte = new ComptePayant(rs.getInt("id"), rs.getInt("solde"));
+        Connection connection = ConnectionManager.getConnection();
+        if(connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(SELECT_COMPTE_BY_ID);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (rs.getString("type_compte").equals(CompteType.SIMPLE.name()))
+                        compte = new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert"));
+                    if (rs.getString("type_compte").equals(CompteType.EPARGNE.name()))
+                        compte = new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret"));
+                    if (rs.getString("type_compte").equals(CompteType.PAYANT.name()))
+                        compte = new ComptePayant(rs.getInt("id"), rs.getInt("solde"));
+                }
             }
         }
         return compte;
@@ -109,13 +121,15 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     @Override
     public List<Compte> findCompteByIdAgence(Agence agence) throws SQLException, IOException, ClassNotFoundException {
         List<Compte> comptes = new ArrayList<>();
-        Connection con = ConnectionManager.getConnection();
-        try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_BY_ID_AGENCE)){
-            ps.setInt(1, agence.getId());
-            try(ResultSet rs = ps.executeQuery()) {
-                comptes = createCompte(comptes, rs);
+        Connection connection = ConnectionManager.getConnection();
+        if(connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(SELECT_COMPTE_BY_ID_AGENCE)) {
+                ps.setInt(1, agence.getId());
+                try (ResultSet rs = ps.executeQuery()) {
+                    comptes = createCompte(comptes, rs);
+                }
+                ps.execute();
             }
-            ps.execute();
         }
         return comptes;
     }
