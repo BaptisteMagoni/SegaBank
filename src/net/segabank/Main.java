@@ -1,8 +1,13 @@
 package net.segabank;
 
+import net.segabank.bo.compte.Compte;
+import net.segabank.bo.compte.CompteType;
 import net.segabank.dao.CompteDAO;
+import net.segabank.dao.IDAO;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 // Afficher la liste des COMPTES
@@ -19,6 +24,7 @@ import java.util.Scanner;
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
+    private static final IDAO<CompteType, Compte, Integer> COMPTE_DAO = new CompteDAO();
 
     public static void main(String[] args) {
         byte action = -1;
@@ -26,6 +32,14 @@ public class Main {
             switch (action){
                 case 1:
                     System.out.println("Afficher la liste des comptes");
+                    try {
+                        List<Compte> lesComptes = COMPTE_DAO.findAll();
+                        for(Compte unCompte : lesComptes){
+                            System.out.println(unCompte);
+                        }
+                    } catch (SQLException | IOException | ClassNotFoundException e) {
+                        System.err.println(e.getMessage());
+                    }
                     SC.nextLine();
                     break;
                 case 2 :
