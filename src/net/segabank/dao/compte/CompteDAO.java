@@ -18,6 +18,7 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     private static final String DELETE_COMPTE = "DELETE FROM compte WHERE id = ?";
     private static final String UPDATE_COMPTE = "UPDATE compte SET id = ?, solde = ?, tauxInteret = ?, id_agence = ?, decouvert = ?, type_compte = ? WHERE id = ?";
     private static final String SELECT_COMPTE_BY_ID_AGENCE = "SELECT * FROM compte WHERE id_agence = ?";
+    private static final String UPDATE_SOLDE_COMPTE = "UPDATE compte SET solde = ? WHERE id = ?";
 
     @Override
     public Compte create(Compte object, CompteType compteType, Agence agence) throws SQLException, IOException, ClassNotFoundException {
@@ -48,6 +49,16 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     }
 
     @Override
+    public void modifySolde(Compte object) throws SQLException, IOException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        try(PreparedStatement ps = con.prepareStatement(UPDATE_SOLDE_COMPTE)){
+            ps.setInt(1, object.getSolde());
+            ps.setInt(2, object.getId());
+            ps.execute();
+        }
+    }
+
+    @Override
     public List<Compte> findByTypeCompte(CompteType compteType) throws SQLException, IOException, ClassNotFoundException {
         List<Compte> comptes = new ArrayList<>();
         Connection con = ConnectionManager.getConnection();
@@ -73,7 +84,6 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         try(PreparedStatement ps = con.prepareStatement(SELECT_ALL_COMPTE);
             ResultSet rs = ps.executeQuery()){
             comptes = createCompte(comptes, rs);
-            ps.execute();
         }
         return comptes;
     }
@@ -85,11 +95,11 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_BY_ID);
             ResultSet rs = ps.executeQuery()){
             while(rs.next()){
-                if(rs.getString("type_compte").equals(CompteType.SIMPLE))
+                if(rs.getString("type_compte").equals(CompteType.SIMPLE.name()))
                     compte = new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert"));
-                if(rs.getString("type_compte").equals(CompteType.EPARGNE))
+                if(rs.getString("type_compte").equals(CompteType.EPARGNE.name()))
                     compte = new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret"));
-                if(rs.getString("type_compte").equals(CompteType.PAYANT))
+                if(rs.getString("type_compte").equals(CompteType.PAYANT.name()))
                     compte = new ComptePayant(rs.getInt("id"), rs.getInt("solde"));
             }
         }
@@ -105,17 +115,18 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
             try(ResultSet rs = ps.executeQuery()) {
                 comptes = createCompte(comptes, rs);
             }
+            ps.execute();
         }
         return comptes;
     }
 
     private List<Compte> createCompte(List<Compte> comptes, ResultSet rs) throws SQLException {
         while(rs.next()){
-            if(rs.getString("type_compte").equals(CompteType.SIMPLE))
+            if(rs.getString("type_compte").equals(CompteType.SIMPLE.name()))
                 comptes.add(new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert")));
-            if(rs.getString("type_compte").equals(CompteType.EPARGNE))
+            if(rs.getString("type_compte").equals(CompteType.EPARGNE.name()))
                 comptes.add(new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret")));
-            if(rs.getString("type_compte").equals(CompteType.PAYANT))
+            if(rs.getString("type_compte").equals(CompteType.PAYANT.name()))
                 comptes.add(new ComptePayant(rs.getInt("id"), rs.getInt("solde")));
         }
 
