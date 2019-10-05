@@ -26,9 +26,6 @@ public class ComptePayant extends Compte {
 
     @Override
     public String toString() {
-        return "ComptePayant{" +
-                "id=" + id +
-                ", solde=" + solde +
-                '}';
+        return id + " - COMPTE_PAYANT [solde : " + solde + "]";
     }
 }
