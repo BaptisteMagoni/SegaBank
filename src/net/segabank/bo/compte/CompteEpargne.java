@@ -6,8 +6,8 @@ public class CompteEpargne extends Compte {
 
     private int tauxInteret;
 
-    public CompteEpargne(int id, int solde, int tauxInteret, Agence agence) {
-        super(id, solde, agence, CompteType.EPARGNE);
+    public CompteEpargne(int id, int solde, int tauxInteret) {
+        super(id, solde, CompteType.EPARGNE);
         this.tauxInteret = tauxInteret;
     }
 

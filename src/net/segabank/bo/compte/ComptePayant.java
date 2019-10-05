@@ -6,8 +6,8 @@ public class ComptePayant extends Compte {
 
     private static int fraisCommission = 5;
 
-    public ComptePayant(int id, int solde, Agence agence) {
-        super(id, solde, agence, CompteType.PAYANT);
+    public ComptePayant(int id, int solde){
+        super(id, solde, CompteType.PAYANT);
     }
 
     public int getFraisCommission(){
