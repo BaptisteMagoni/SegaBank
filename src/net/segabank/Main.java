@@ -10,22 +10,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-// Afficher la liste des COMPTES
-// Sélectionner un compte
-// |╚> Détails du compte
-// |╚> Virement
-// |╚> Débit
-// |╚> Exporter les opérations en CSV
-// |╚> Supprimmer
-// Afficher la liste des AGENCES
-// Sélectionner une agence
-// |╚> Liste des comptes par agences
-// Quitter
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
     private static final IDAOCompte<CompteType, Compte, Integer> COMPTE_DAO = new CompteDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
+    private static List<Compte> lesComptes;
 
     public static void main(String[] args) {
         byte action = -1;
@@ -34,7 +24,7 @@ public class Main {
                 case 1:
                     System.out.println("Afficher la liste des comptes");
                     try {
-                        List<Compte> lesComptes = COMPTE_DAO.findAll();
+                        lesComptes = COMPTE_DAO.findAll();
                         for(Compte unCompte : lesComptes){
                             System.out.println(unCompte);
                         }
