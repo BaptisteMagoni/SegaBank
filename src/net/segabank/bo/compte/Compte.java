@@ -1,13 +1,15 @@
-package net.segabank.bo;
+package net.segabank.bo.compte;
 
 public abstract class Compte {
 
     protected int id;
     protected int solde;
+    private CompteType compteType;
 
-    public Compte(int id, int solde) {
+    public Compte(int id, int solde, CompteType compteType) {
         this.id = id;
         this.solde = solde;
+        this.compteType = compteType;
     }
 
     public int getId() { return id; }

@@ -1,11 +1,16 @@
-package net.segabank.bo;
+package net.segabank.bo.compte;
 
 public class CompteEpargne extends Compte {
+
     private int tauxInteret;
 
     public CompteEpargne(int id, int solde, int tauxInteret) {
-        super(id, solde);
+        super(id, solde, CompteType.EPARGNE);
         this.tauxInteret = tauxInteret;
+    }
+
+    public int getTauxInteret(){
+        return tauxInteret;
     }
 
     public void calculInteret(){
