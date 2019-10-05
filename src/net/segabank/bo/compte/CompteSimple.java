@@ -1,11 +1,13 @@
 package net.segabank.bo.compte;
 
+import net.segabank.bo.agence.Agence;
+
 public class CompteSimple extends Compte{
 
     private int decouvert;
 
-    public CompteSimple(int id, int solde, int decouvert) {
-        super(id, solde, CompteType.SIMPLE);
+    public CompteSimple(int id, int solde, Agence agence, int decouvert) {
+        super(id, solde, agence, CompteType.SIMPLE);
         this.decouvert = decouvert;
     }
 
