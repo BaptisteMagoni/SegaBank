@@ -68,7 +68,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.AppCsv">
+  <component name="RunManager" selected="Application.Main (1)">
     <configuration name="AppCsv" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="net.segabank.AppCsv" />
       <module name="SegaBank" />
