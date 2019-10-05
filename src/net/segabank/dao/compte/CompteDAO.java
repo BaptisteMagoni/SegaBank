@@ -18,6 +18,7 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     private static final String DELETE_COMPTE = "DELETE FROM compte WHERE id = ?";
     private static final String UPDATE_COMPTE = "UPDATE compte SET id = ?, solde = ?, tauxInteret = ?, id_agence = ?, decouvert = ?, type_compte = ? WHERE id = ?";
     private static final String SELECT_COMPTE_BY_ID_AGENCE = "SELECT * FROM compte WHERE id_agence = ?";
+    private static final String UPDATE_SOLDE_COMPTE = "UPDATE compte SET solde = ? WHERE id = ?";
 
     @Override
     public Compte create(Compte object, CompteType compteType, Agence agence) throws SQLException, IOException, ClassNotFoundException {
@@ -44,6 +45,16 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         try(PreparedStatement ps = con.prepareStatement(DELETE_COMPTE)){
             ps.setInt(1, object.getId());
             ps.executeUpdate();
+        }
+    }
+
+    @Override
+    public void modifySolde(Compte object) throws SQLException, IOException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        try(PreparedStatement ps = con.prepareStatement(UPDATE_SOLDE_COMPTE)){
+            ps.setInt(1, object.getSolde());
+            ps.setInt(2, object.getId());
+            ps.execute();
         }
     }
 
@@ -104,6 +115,7 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
             try(ResultSet rs = ps.executeQuery()) {
                 comptes = createCompte(comptes, rs);
             }
+            ps.execute();
         }
         return comptes;
     }
