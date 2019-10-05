@@ -1,5 +1,7 @@
 package net.segabank;
 
+import net.segabank.dao.CompteDAO;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -23,7 +25,7 @@ public class Main {
         do{
             switch (action){
                 case 1:
-                    System.out.println("Action 1 saisie");
+                    System.out.println("Afficher la liste des comptes");
                     SC.nextLine();
                     break;
                 case 2 :
@@ -31,11 +33,11 @@ public class Main {
                     SC.nextLine();
                     break;
                 case 3:
-                    System.out.println("Action 3 saisie");
+                    System.out.println("Afficher la liste des agences");
                     SC.nextLine();
                     break;
                 case 4:
-                    System.out.println("Action 4 saisie");
+                    dspMenuAgence();
                     SC.nextLine();
                     break;
                 case 5:
@@ -45,11 +47,10 @@ public class Main {
             try{
                 action = SC.nextByte();
                 SC.nextLine();
-                if(action > 5) throw new Exception();
+                if(action > 5 || action < 1) throw new Exception();
             }catch( Exception e){
-                System.out.println("Veuillez saisir une option du menu correct");
+                System.out.println("Veuillez saisir une option correct");
                 action = -1;
-                SC.nextLine();
             }
         }while(action != 5);
         System.out.println("A bientôt sur segabank !");
@@ -68,7 +69,7 @@ public class Main {
         System.out.println("||   ╚> Exporter les opérations       ||");
         System.out.println("|| 3 ═> Afficher la liste des agences ||");
         System.out.println("|| 4 ═> Sélectionner une agence       ||");
-        System.out.println("||   ╚> liste des comptes             ||");
+        System.out.println("||   ╚> Afficher tous les comptes     ||");
         System.out.println("|| 5 ═> Quitter                       ||");
         System.out.println("=======================================");
         System.out.println("");
@@ -76,51 +77,71 @@ public class Main {
     }
 
     public static void dspMenuCompte(){
-        System.out.println("=======================================");
-        System.out.println("||   ╚> 1 Détails du compte          ||");
-        System.out.println("||   ╚> 2 Virement                   ||");
-        System.out.println("||   ╚> 3 Débit                      ||");
-        System.out.println("||   ╚> 4 Supprimmer le compte       ||");
-        System.out.println("||   ╚> 5 Exporter les opérations    ||");
-        System.out.println("||   ╚> 6 Retour                     ||");
-        System.out.println("=======================================");
-        System.out.println("");
-        System.out.print("Saisir une action :");
-        byte action = SC.nextByte();
-        SC.nextLine();
+        byte action = -1;
+        do {
+            switch (action) {
+                case 1:
+                    System.out.println("Détails du compte :");
+                    break;
+                case 2:
+                    System.out.println("Virement");
+                    break;
+                case 3:
+                    System.out.println("Débit");
+                    break;
+                case 4:
+                    System.out.println("Supprimmer le compte");
+                    break;
+                case 5:
+                    System.out.println("Exporter les opérations");
+                    break;
+            }
+            System.out.println("=======================================");
+            System.out.println("||   ╚> 1 Détails du compte          ||");
+            System.out.println("||   ╚> 2 Virement                   ||");
+            System.out.println("||   ╚> 3 Débit                      ||");
+            System.out.println("||   ╚> 4 Supprimmer le compte       ||");
+            System.out.println("||   ╚> 5 Exporter les opérations    ||");
+            System.out.println("||   ╚> 6 Retour                     ||");
+            System.out.println("=======================================");
+            System.out.println("");
+            System.out.print("Saisir une action :");
+            try{
+                action = SC.nextByte();
+                SC.nextLine();
+                if(action > 6 || action < 1) throw new Exception();
+            }catch(Exception e ){
+                System.out.println("Veuillez saisir une option correct");
+                action = -1;
+            }
+        }while(action != 6);
 
-        switch (action){
-            case 1:
-                System.out.println("Détails du compte :");
-                break;
-            case 2 :
-                System.out.println("Virement");
-                break;
-            case 3:
-                System.out.println("Débit");
-                break;
-            case 4:
-                System.out.println("Supprimmer le compte");
-                break;
-            case 5:
-                System.out.println("Exporter les opérations");
-                break;
-        }
     }
 
     public static void dspMenuAgence(){
-        System.out.println("=======================================");
-        System.out.println("||   ╚> 1 Afficher tous les comptes  ||");
-        System.out.println("||   ╚> 2 Retour                     ||");
-        System.out.println("=======================================");
-        System.out.println("");
-        System.out.print("Saisir une action ");
-        byte action = SC.nextByte();
-        SC.nextLine();
-        switch(action){
-            case 1:
-                System.out.println("Afficher tous les comptes");
-                break;
-        }
+        byte action = -1;
+        do{
+            switch(action){
+                case 1:
+                    System.out.println("Afficher tous les comptes");
+                    break;
+            }
+            System.out.println("=======================================");
+            System.out.println("||   ╚> 1 Afficher tous les comptes  ||");
+            System.out.println("||   ╚> 2 Retour                     ||");
+            System.out.println("=======================================");
+            System.out.println("");
+            System.out.print("Saisir une action ");
+            try{
+                action = SC.nextByte();
+                SC.nextLine();
+                if(action > 2 || action < 1) throw new Exception();
+            }catch (Exception e ){
+                System.out.println("Veuillez saisir une option correct");
+                action = -1;
+            }
+        }while(action !=2);
+
+
     }
 }
