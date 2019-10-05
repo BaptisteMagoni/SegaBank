@@ -15,7 +15,6 @@ public class Main {
     private static final Scanner SC = new Scanner(System.in);
     private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
-    private static List<Compte> lesComptes;
 
     public static void main(String[] args) {
         byte action = -1;
@@ -24,8 +23,7 @@ public class Main {
                 case 1:
                     System.out.println("Afficher la liste des comptes");
                     try {
-                        lesComptes = COMPTE_DAO.findAll();
-                        for(Compte unCompte : lesComptes){
+                        for(Compte unCompte : COMPTE_DAO.findAll()){
                             System.out.println(unCompte);
                         }
                     } catch (SQLException | IOException | ClassNotFoundException e) {
