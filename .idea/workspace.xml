@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/resources/db.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/segabank/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570273520526</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="modif main">
+      <created>1570278588945</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1570278588945</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
