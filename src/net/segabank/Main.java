@@ -3,6 +3,8 @@ package net.segabank;
 import net.segabank.bo.agence.Agence;
 import net.segabank.bo.compte.Compte;
 import net.segabank.bo.compte.CompteType;
+import net.segabank.dao.agence.AgenceDAO;
+import net.segabank.dao.agence.IDAOAgence;
 import net.segabank.dao.compte.CompteDAO;
 import net.segabank.dao.compte.IDAOCompte;
 
@@ -14,6 +16,7 @@ public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
     private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
+    private static final IDAOAgence<Agence, Integer> AGENCE_DAO = new AgenceDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
 
     public static void main(String[] args) {
@@ -83,6 +86,11 @@ public class Main {
         byte action = -1;
         int agenceId = -1;
         Agence monAgence = null;
+        try {
+            agences = AGENCE_DAO.findAll();
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
         //TODO: Boucles for affiche toutes les agences
         do{
             try{
@@ -95,10 +103,18 @@ public class Main {
         }while(agenceId < 0 || agenceId > agences.size());
         monAgence = agences.get(agenceId);
 
-        /*List<Compte> lesCompteParAgence;
-        List<Compte> lesCompteParAgence = COMPTE_DAO.findCompteByIdAgence(monAgence);
+        List<Compte> lesComptesParAgence = new ArrayList<>();
+        int sizeCompte = 0;
+        try {
+            lesComptesParAgence = COMPTE_DAO.findCompteByIdAgence(monAgence);
+            sizeCompte = lesComptesParAgence.size();
+            for(Compte compte : lesComptesParAgence){
+                System.out.println(compte);
+            }
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
         Compte monCompte = null;
-        //TODO: Boucles for affiche tous les comptes
         int compteId = -1;
         do{
             try{
@@ -108,8 +124,8 @@ public class Main {
             }catch(Exception e){
                 System.out.println("Choissisez un compte valable");
             }
-        }while(compteId < 0 || compteId > lesCompteParAgence.size());*/
-
+        }while(compteId < 0 || compteId > sizeCompte);
+        monCompte = lesComptesParAgence.get(compteId);
 
         do {
             switch (action) {
