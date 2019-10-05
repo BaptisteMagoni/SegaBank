@@ -4,10 +4,15 @@ public abstract class Compte {
 
     protected int id;
     protected int solde;
+    private CompteType compteType;
 
-    public Compte(int id, int solde) {
+    public Compte(int id, int solde, CompteType compteType) {
         this.id = id;
         this.solde = solde;
+        this.compteType = compteType;
+    }
+
+    public Compte(int id, int solde) {
     }
 
     public int getId() { return id; }

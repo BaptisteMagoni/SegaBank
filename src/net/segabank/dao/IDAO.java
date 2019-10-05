@@ -1,11 +1,16 @@
 package net.segabank.dao;
 
-public interface IDAO<CLASS, E> {
+import net.segabank.bo.CompteType;
 
-    void create(CLASS object);
-    void modify(CLASS object);
-    void delete(CLASS object);
-    void findById(Integer id);
+import java.io.IOException;
+import java.sql.SQLException;
+
+public interface IDAO<ID, E> {
+
+    E create(E object, CompteType compteType) throws SQLException, IOException, ClassNotFoundException;
+    void modify(E object);
+    void delete(E object);
+    void findById(ID id);
     void findAll();
 
 

@@ -19,6 +19,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -37,11 +38,14 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="A:\EPSI\JAVA\Projects\SegaBank\resources" />
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="net.segabank.dao" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="A:\EPSI\JAVA\Projects\SegaBank\ressources\sql" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="A:\EPSI\JAVA\Projects\SegaBank\resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -81,6 +85,8 @@
       <workItem from="1570193896353" duration="1454000" />
       <workItem from="1570196521501" duration="2243000" />
       <workItem from="1570198958260" duration="2304000" />
+      <workItem from="1570215482807" duration="620000" />
+      <workItem from="1570216282215" duration="2383000" />
     </task>
     <task id="LOCAL-00001" summary="ajout gitignore&#10;modification objet">
       <created>1570197077964</created>
