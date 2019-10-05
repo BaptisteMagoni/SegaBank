@@ -21,6 +21,6 @@ public class CompteEpargne extends Compte {
 
     @Override
     public String toString() {
-        return id + " - COMPTE_EPARGNE [solde : " + solde + ", taux d'interet : " + tauxInteret + "]";
+        return " - COMPTE_EPARGNE [solde : " + solde + ", taux d'interet : " + tauxInteret + "]";
     }
 }

@@ -32,6 +32,6 @@ public class CompteSimple extends Compte{
 
     @Override
     public String toString() {
-        return id + " - COMPTE_SIMPLE [solde : " + solde + ", decouvert : " + decouvert + "]";
+        return " - COMPTE_SIMPLE [solde : " + solde + ", decouvert : " + decouvert + "]";
     }
 }

@@ -30,21 +30,17 @@ public class Main {
                     break;
                 // Afficher le menu des actions sur les comptes
                 case 2 :
-                    //TODO : Sous action quand FindCompteByAgence fonctionneras
                     dspMenuCompte();
                     SC.nextLine();
                     break;
                 // Création compte
                 case 3:
-                    //TODO: Création de comptes
                     break;
                 // Afficher la liste des agences
                 case 4:
                     dspAllAgences();
-                    SC.nextLine();
                     break;
                 case 5:
-                    //TODO : Afficher les comptes pour une agence
                     dspMenuAgence();
                     SC.nextLine();
                     break;
@@ -55,6 +51,7 @@ public class Main {
                 if(action > 6 || action < 1) throw new Exception();
             }catch( Exception e){
                 action = -1;
+                SC.nextLine();
                 System.out.println("Veuillez saisir une option correct");
             }
             SC.nextLine();
@@ -86,6 +83,7 @@ public class Main {
     }
 
     public static void dspMenuCompte(){
+        byte action = -1;
 
         Agence monAgence = chooseAgence();
         List<Compte> lesComptesParAgence = new ArrayList<>();
@@ -93,65 +91,78 @@ public class Main {
         try {
             lesComptesParAgence = COMPTE_DAO.findCompteByIdAgence(monAgence);
             sizeCompte = lesComptesParAgence.size();
+            int i = 0;
             for(Compte compte : lesComptesParAgence){
-                System.out.println(compte);
+                System.out.println(i + compte.toString());
+                i++;
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
         Compte monCompte = null;
         int compteId = -1;
-        do{
-            try{
-                System.out.print("Choisir un compte : ");
-                compteId = SC.nextInt();
-                SC.nextLine();
-                if(compteId> sizeCompte) throw new Exception();
-            }catch(Exception e){
-                compteId = -1;
-                System.out.println("Choissisez un compte valable");
-                SC.nextLine();
-            }
-        }while(compteId <= 0 || compteId > sizeCompte);
-        monCompte = lesComptesParAgence.get(compteId);
+        if(sizeCompte > 0 ){
+            do{
+                try{
+                    System.out.print("Choisir un compte : ");
+                    compteId = SC.nextInt();
+                    if(compteId >= sizeCompte || compteId < 0) throw new Exception();
+                }catch(Exception e){
+                    compteId = -1;
+                    SC.nextLine();
+                    System.out.println("Choissisez un compte valable");
+                }
+            }while(compteId < 0 || compteId > sizeCompte);
+            monCompte = lesComptesParAgence.get(compteId);
+        }else{
+            System.out.println("Il n'y a plus de compte pour cette agence");
+            action = 5;
+        }
 
-        byte action = -1;
-        do {
-            switch (action) {
-                case 1:
-                    System.out.println("Virement");
-                    virementCompte(monCompte);
-                    break;
-                case 2:
-                    System.out.println("Débit");
-                    debitCompte(monCompte);
-                    break;
-                case 3:
-                    System.out.println("Supprimmer le compte");
-                    deleteCompte(monCompte);
-                    break;
-                case 4:
-                    System.out.println("Exporter les opérations");
-                    break;
+        if(action != 5){
+            while(action != 5) {
+                boolean verifSuppr = false;
+                switch (action) {
+                    case 1:
+                        System.out.println("Virement");
+                        virementCompte(monCompte);
+                        break;
+                    case 2:
+                        System.out.println("Débit");
+                        debitCompte(monCompte);
+                        break;
+                    case 3:
+                        System.out.println("Supprimmer le compte");
+                        verifSuppr = deleteCompte(monCompte);
+                        break;
+                    case 4:
+                        System.out.println("Exporter les opérations");
+                        break;
+                }
+                if(!verifSuppr){
+                    System.out.println("╔════════════════════════════════════╗");
+                    System.out.println("║     ↳ 1 Virement                   ║");
+                    System.out.println("║     ↳ 2 Débit                      ║");
+                    System.out.println("║     ↳ 3 Supprimmer le compte       ║");
+                    System.out.println("║     ↳ 4 Exporter les opérations    ║");
+                    System.out.println("║     ↳ 5 Retour                     ║");
+                    System.out.println("╚════════════════════════════════════╝");
+                    System.out.println("");
+                    System.out.print("Saisir une action :");
+                    try{
+                        action = SC.nextByte();
+                        if(action > 5 || action < 1) throw new Exception();
+                    }catch(Exception e ){
+                        action = -1;
+                        SC.nextLine();
+                        System.out.println("Veuillez saisir une option correct");
+                    }
+                }else{
+                    action = 5;
+                }
             }
-            System.out.println("╔════════════════════════════════════╗");
-            System.out.println("║     ↳ 1 Virement                   ║");
-            System.out.println("║     ↳ 2 Débit                      ║");
-            System.out.println("║     ↳ 3 Supprimmer le compte       ║");
-            System.out.println("║     ↳ 4 Exporter les opérations    ║");
-            System.out.println("║     ↳ 5 Retour                     ║");
-            System.out.println("╚════════════════════════════════════╝");
-            System.out.println("");
-            System.out.print("Saisir une action :");
-            try{
-                action = SC.nextByte();
-                SC.nextLine();
-                if(action > 5 || action < 1) throw new Exception();
-            }catch(Exception e ){
-                action = -1;
-                System.out.println("Veuillez saisir une option correct");
-            }
-        }while(action != 5);
+        }
+
 
     }
 
@@ -187,16 +198,19 @@ public class Main {
         }
     }
 
-    private static void deleteCompte(Compte compte) {
+    private static boolean deleteCompte(Compte compte) {
         System.out.print("Voulez vous vraiment supprimmer le compte ? (Y/N) :");
+        boolean ret = false;
         try{
             String confirm = SC.nextLine();
             if(confirm.equals("Y") || confirm.equals("y")){
                 COMPTE_DAO.delete(compte);
-            }
+                ret =  true;
+            }else ret = false;
         }catch(Exception e){
             System.err.println(e.getMessage());
         }
+        return ret;
     }
 
     /**
@@ -245,10 +259,10 @@ public class Main {
             System.out.print("Choisir une agence : ");
             try {
                 agenceId = SC.nextInt();
-                SC.nextLine();
                 if(agenceId <=0 || agenceId > agences.size()) throw new Exception();
             }catch(Exception e){
                 agenceId = -1;
+                SC.nextLine();
                 System.out.println("Choissisez une agence correct");
             }
         }while(agenceId <= 0 || agenceId > agences.size());
@@ -270,6 +284,7 @@ public class Main {
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
+        SC.nextLine();
     }
 
     /**
@@ -290,7 +305,6 @@ public class Main {
      * Affiche tous les comptes présent dans la BDD
      */
     private static void dspAllCompte(){
-        //TODO:Retourne pas les comptes (tableau vide !)
         try {
             for(Compte unCompte : COMPTE_DAO.findAll()){
                     System.out.println(unCompte);
