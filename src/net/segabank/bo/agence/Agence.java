@@ -42,4 +42,9 @@ public class Agence {
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
+
+    @Override
+    public String toString() {
+        return id + " - AGENCE [ Code : " + code + ", Adresse : " + adresse + "]";
+    }
 }
