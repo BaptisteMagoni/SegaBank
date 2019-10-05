@@ -3,7 +3,6 @@ package net.segabank.dao.compte;
 import net.segabank.bo.agence.Agence;
 import net.segabank.bo.compte.*;
 import net.segabank.dao.ConnectionManager;
-import net.segabank.dao.agence.AgenceDAO;
 
 import java.io.IOException;
 import java.sql.*;
