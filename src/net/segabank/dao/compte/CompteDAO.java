@@ -73,7 +73,6 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         try(PreparedStatement ps = con.prepareStatement(SELECT_ALL_COMPTE);
             ResultSet rs = ps.executeQuery()){
             comptes = createCompte(comptes, rs);
-            ps.execute();
         }
         return comptes;
     }
@@ -85,11 +84,11 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_BY_ID);
             ResultSet rs = ps.executeQuery()){
             while(rs.next()){
-                if(rs.getString("type_compte").equals(CompteType.SIMPLE))
+                if(rs.getString("type_compte").equals(CompteType.SIMPLE.name()))
                     compte = new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert"));
-                if(rs.getString("type_compte").equals(CompteType.EPARGNE))
+                if(rs.getString("type_compte").equals(CompteType.EPARGNE.name()))
                     compte = new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret"));
-                if(rs.getString("type_compte").equals(CompteType.PAYANT))
+                if(rs.getString("type_compte").equals(CompteType.PAYANT.name()))
                     compte = new ComptePayant(rs.getInt("id"), rs.getInt("solde"));
             }
         }
@@ -111,11 +110,11 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
 
     private List<Compte> createCompte(List<Compte> comptes, ResultSet rs) throws SQLException {
         while(rs.next()){
-            if(rs.getString("type_compte").equals(CompteType.SIMPLE))
+            if(rs.getString("type_compte").equals(CompteType.SIMPLE.name()))
                 comptes.add(new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert")));
-            if(rs.getString("type_compte").equals(CompteType.EPARGNE))
+            if(rs.getString("type_compte").equals(CompteType.EPARGNE.name()))
                 comptes.add(new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret")));
-            if(rs.getString("type_compte").equals(CompteType.PAYANT))
+            if(rs.getString("type_compte").equals(CompteType.PAYANT.name()))
                 comptes.add(new ComptePayant(rs.getInt("id"), rs.getInt("solde")));
         }
 

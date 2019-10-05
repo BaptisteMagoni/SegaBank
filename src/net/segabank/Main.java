@@ -244,7 +244,7 @@ public class Main {
         //TODO:Retourne pas les comptes (tableau vide !)
         try {
             for(Compte unCompte : COMPTE_DAO.findAll()){
-                System.out.println(unCompte);
+                    System.out.println(unCompte);
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
