@@ -120,12 +120,15 @@ public class Main {
             switch (action) {
                 case 1:
                     System.out.println("Virement");
+                    virementCompte(monCompte);
                     break;
                 case 2:
                     System.out.println("Débit");
+                    debitCompte(monCompte);
                     break;
                 case 3:
                     System.out.println("Supprimmer le compte");
+                    deleteCompte(monCompte);
                     break;
                 case 4:
                     System.out.println("Exporter les opérations");
@@ -150,6 +153,50 @@ public class Main {
             }
         }while(action != 5);
 
+    }
+
+    private static void debitCompte(Compte compte) {
+        System.out.println("Ancien Solde : " + compte.getSolde());
+        System.out.print("Montant à débiter : ");
+        try{
+            int montant = SC.nextInt();
+            SC.nextLine();
+            if(montant < 0) throw new Exception();
+            else{
+                compte.retrait(montant);
+                COMPTE_DAO.modifySolde(compte);
+            }
+        }catch(Exception e){
+            System.out.println("Montant incorrect");
+        }
+    }
+
+    private static void virementCompte(Compte compte) {
+        System.out.println("Ancien Solde : " + compte.getSolde());
+        System.out.print("Montant à virer : ");
+        try{
+            int montant = SC.nextInt();
+            SC.nextLine();
+            if(montant < 0) throw new Exception();
+            else{
+                compte.ajout(montant);
+                COMPTE_DAO.modifySolde(compte);
+            }
+        }catch(Exception e){
+            System.out.println("Montant incorrect");
+        }
+    }
+
+    private static void deleteCompte(Compte compte) {
+        System.out.print("Voulez vous vraiment supprimmer le compte ? (Y/N) :");
+        try{
+            String confirm = SC.nextLine();
+            if(confirm.equals("Y") || confirm.equals("y")){
+                COMPTE_DAO.delete(compte);
+            }
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
     }
 
     /**
