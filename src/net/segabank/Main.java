@@ -1,14 +1,14 @@
 package net.segabank;
 
+import net.segabank.bo.agence.Agence;
 import net.segabank.bo.compte.Compte;
 import net.segabank.bo.compte.CompteType;
-import net.segabank.dao.CompteDAO;
-import net.segabank.dao.IDAO;
+import net.segabank.dao.compte.CompteDAO;
+import net.segabank.dao.compte.IDAOCompte;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 // Afficher la liste des COMPTES
 // Sélectionner un compte
@@ -24,7 +24,8 @@ import java.util.Scanner;
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
-    private static final IDAO<CompteType, Compte, Integer> COMPTE_DAO = new CompteDAO();
+    private static final IDAOCompte<CompteType, Compte, Integer> COMPTE_DAO = new CompteDAO();
+    private static Map<Integer, Agence> agences = new HashMap<>();
 
     public static void main(String[] args) {
         byte action = -1;
