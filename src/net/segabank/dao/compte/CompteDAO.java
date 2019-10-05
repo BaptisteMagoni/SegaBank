@@ -18,33 +18,35 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     private static final String SELECT_COMPTE_BY_ID = "SELECT * FROM compte WHERE id = ?";
     private static final String DELETE_COMPTE = "DELETE FROM compte WHERE id = ?";
     private static final String UPDATE_COMPTE = "UPDATE compte SET id = ?, solde = ?, tauxInteret = ?, id_agence = ?, decouvert = ?, type_compte = ? WHERE id = ?";
+    private static final String SELECT_COMPTE_BY_ID_AGENCE = "SELECT * FROM compte WHERE id_agence = ?";
 
     @Override
     public Compte create(Compte object, CompteType compteType, Agence agence) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = ConnectionManager.getConnection();
         if(connection != null) {
             try (PreparedStatement ps = connection.prepareStatement(CREATE_COMPTE, Statement.RETURN_GENERATED_KEYS)) {
-                return actionArguments(object, compteType, ps);
+                return actionArguments(object, compteType, ps, agence);
             }
         }
         return null;
     }
 
     @Override
-    public void modify(Compte object, CompteType compteType) throws SQLException, IOException, ClassNotFoundException {
+    public void modify(Compte object, CompteType compteType, Agence agence) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = ConnectionManager.getConnection();
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_COMPTE)) {
-            actionArguments(object, compteType, ps);
+            actionArguments(object, compteType, ps, agence);
         }
     }
 
     @Override
-    public void delete(Compte object) throws SQLException, IOException, ClassNotFoundException {
+    public Compte delete(Compte object) throws SQLException, IOException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         try(PreparedStatement ps = con.prepareStatement(DELETE_COMPTE)){
             ps.setInt(1, object.getId());
             ps.executeUpdate();
         }
+        return null;
     }
 
     @Override
@@ -72,14 +74,7 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         Connection con = ConnectionManager.getConnection();
         try(PreparedStatement ps = con.prepareStatement(SELECT_ALL_COMPTE);
             ResultSet rs = ps.executeQuery()){
-            while(rs.next()){
-                if(rs.getString("type_compte").equals(CompteType.SIMPLE.name()))
-                    comptes.add(new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert")));
-                if(rs.getString("type_compte").equals(CompteType.EPARGNE.name()))
-                    comptes.add(new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret")));
-                if(rs.getString("type_compte").equals(CompteType.PAYANT.name()))
-                    comptes.add(new ComptePayant(rs.getInt("id"), rs.getInt("solde")));
-            }
+            createCompte(comptes, rs);
             ps.execute();
         }
         return comptes;
@@ -103,21 +98,45 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         return compte;
     }
 
-    private Compte actionArguments(Compte object, CompteType compteType, PreparedStatement ps) throws SQLException {
+    @Override
+    public List<Compte> findCompteByIdAgence(Agence agence) throws SQLException, IOException, ClassNotFoundException {
+        List<Compte> comptes = new ArrayList<>();
+        Connection con = ConnectionManager.getConnection();
+        try(PreparedStatement ps = con.prepareStatement(SELECT_COMPTE_BY_ID_AGENCE);
+            ResultSet rs = ps.executeQuery()){
+            ps.setInt(1, agence.getId());
+            createCompte(comptes, rs);
+        }
+        return null;
+    }
+
+    private List<Compte> createCompte(List<Compte> comptes, ResultSet rs) throws SQLException {
+        while(rs.next()){
+            if(rs.getString("type_compte").equals(CompteType.SIMPLE))
+                comptes.add(new CompteSimple(rs.getInt("id"), rs.getInt("solde"), rs.getInt("decouvert")));
+            if(rs.getString("type_compte").equals(CompteType.EPARGNE))
+                comptes.add(new CompteEpargne(rs.getInt("id"), rs.getInt("solde"), rs.getInt("tauxInteret")));
+            if(rs.getString("type_compte").equals(CompteType.PAYANT))
+                comptes.add(new ComptePayant(rs.getInt("id"), rs.getInt("solde")));
+        }
+        return comptes;
+    }
+
+    private Compte actionArguments(Compte object, CompteType compteType, PreparedStatement ps, Agence agence) throws SQLException {
         if (compteType.equals(CompteType.SIMPLE)) {
             CompteSimple compteSimple = (CompteSimple) object;
-            this.setArguments(ps, compteSimple.getSolde(), -1, 1, compteSimple.getDecouvert(), compteType);
+            this.setArguments(ps, compteSimple.getSolde(), -1, agence.getId(), compteSimple.getDecouvert(), compteType);
             return compteSimple;
         }else if(compteType.equals(CompteType.EPARGNE)){
             CompteEpargne compteEpargne = (CompteEpargne) object;
-            this.setArguments(ps, compteEpargne.getSolde(), compteEpargne.getTauxInteret(), 1, -1, compteType);
+            this.setArguments(ps, compteEpargne.getSolde(), compteEpargne.getTauxInteret(), agence.getId(), -1, compteType);
             return compteEpargne;
         }else if(compteType.equals(CompteType.PAYANT)){
             ComptePayant comptePayant = (ComptePayant) object;
-            this.setArguments(ps, comptePayant.getSolde(), -1, 1, -1, compteType);
+            this.setArguments(ps, comptePayant.getSolde(), -1, agence.getId(), -1, compteType);
             return comptePayant;
         }
-        ps.executeUpdate();
+        ps.execute();
         return null;
     }
 

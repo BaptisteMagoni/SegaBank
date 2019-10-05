@@ -24,7 +24,7 @@ import java.util.*;
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
-    private static final IDAOCompte<CompteType, Compte, Integer> COMPTE_DAO = new CompteDAO();
+    private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
 
     public static void main(String[] args) {
