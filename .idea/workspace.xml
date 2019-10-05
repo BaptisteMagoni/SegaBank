@@ -20,6 +20,7 @@
       <list>
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -106,7 +107,7 @@
       <workItem from="1570196521501" duration="2243000" />
       <workItem from="1570198958260" duration="2304000" />
       <workItem from="1570215482807" duration="620000" />
-      <workItem from="1570216282215" duration="10179000" />
+      <workItem from="1570216282215" duration="14751000" />
     </task>
     <task id="LOCAL-00001" summary="ajout gitignore&#10;modification objet">
       <created>1570197077964</created>
