@@ -7,6 +7,7 @@ import net.segabank.dao.agence.AgenceDAO;
 import net.segabank.dao.agence.IDAOAgence;
 import net.segabank.dao.compte.CompteDAO;
 import net.segabank.dao.compte.IDAOCompte;
+import net.segabank.service.CsvService;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import java.util.*;
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
+    private static final String MESSAGE_QUITTE = "Appuyer sur 'Entrez' pour revenir au menu principal";
     private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
     private static final IDAOAgence<Agence, Integer> AGENCE_DAO = new AgenceDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
@@ -35,10 +37,12 @@ public class Main {
                     break;
                 // Création compte
                 case 3:
+                    dspMenuCreationCompte();
+                    SC.nextLine();
                     break;
                 // Afficher la liste des agences
                 case 4:
-                    dspAllAgences();
+                    dspAllAgences(true);
                     break;
                 case 5:
                     dspMenuAgence();
@@ -52,7 +56,7 @@ public class Main {
             }catch( Exception e){
                 action = -1;
                 SC.nextLine();
-                System.out.println("Veuillez saisir une option correct");
+                System.out.println("Veuillez saisir une option correct (entier)");
             }
             SC.nextLine();
         }while(action != 6);
@@ -60,6 +64,10 @@ public class Main {
         System.out.println("╔════════════════════════════════════╗");
         System.out.println("╠══════ A BIENTOT SUR SEGABANK ══════╣");
         System.out.println("╚════════════════════════════════════╝");
+    }
+
+    private static void dspMenuCreationCompte() {
+
     }
 
     public static void dspMenu(){
@@ -79,7 +87,7 @@ public class Main {
         System.out.println("║ 6  → Quitter                       ║");
         System.out.println("╚════════════════════════════════════╝");
         System.out.println("");
-        System.out.print("Saisir une action : ");
+        System.out.print("Saisir une action (entier) : ");
     }
 
     public static void dspMenuCompte(){
@@ -104,13 +112,13 @@ public class Main {
         if(sizeCompte > 0 ){
             do{
                 try{
-                    System.out.print("Choisir un compte : ");
+                    System.out.print("Choisir un compte (entier) : ");
                     compteId = SC.nextInt();
                     if(compteId >= sizeCompte || compteId < 0) throw new Exception();
                 }catch(Exception e){
                     compteId = -1;
                     SC.nextLine();
-                    System.out.println("Choissisez un compte valable");
+                    System.out.println("\nChoissisez un compte valable (entier)");
                 }
             }while(compteId < 0 || compteId > sizeCompte);
             monCompte = lesComptesParAgence.get(compteId);
@@ -148,14 +156,14 @@ public class Main {
                     System.out.println("║     ↳ 5 Retour                     ║");
                     System.out.println("╚════════════════════════════════════╝");
                     System.out.println("");
-                    System.out.print("Saisir une action :");
+                    System.out.print("Saisir une action (entier) :");
                     try{
                         action = SC.nextByte();
                         if(action > 5 || action < 1) throw new Exception();
                     }catch(Exception e ){
                         action = -1;
                         SC.nextLine();
-                        System.out.println("Veuillez saisir une option correct");
+                        System.out.println("\nVeuillez saisir une option correct (entier)");
                     }
                 }else{
                     action = 5;
@@ -176,6 +184,8 @@ public class Main {
             else{
                 compte.retrait(montant);
                 COMPTE_DAO.modifySolde(compte);
+                String[] args = {"Débit", String.valueOf(montant)};
+                CsvService.writeCsv(args);
             }
         }catch(Exception e){
             System.out.println("Montant incorrect");
@@ -192,6 +202,8 @@ public class Main {
             else{
                 compte.ajout(montant);
                 COMPTE_DAO.modifySolde(compte);
+                String[] args = {"Virement", String.valueOf(montant)};
+                CsvService.writeCsv(args);
             }
         }catch(Exception e){
             System.out.println("Montant incorrect");
@@ -233,12 +245,12 @@ public class Main {
             System.out.println("║     ↳ 2 Retour                     ║");
             System.out.println("╚════════════════════════════════════╝");
             System.out.println("");
-            System.out.print("Saisir une action ");
+            System.out.print("Saisir une action (entier) ");
             try{
                 action = SC.nextByte();
                 if(action > 2 || action < 1) throw new Exception();
             }catch (Exception e ){
-                System.out.println("Veuillez saisir une option correct");
+                System.out.println("\nVeuillez saisir une option correct (entier)");
                 SC.nextLine();
                 action = -1;
             }
@@ -253,17 +265,17 @@ public class Main {
      * @return Agence
      */
     private static Agence chooseAgence() {
-        dspAllAgences();
+        dspAllAgences(false);
         int agenceId = -1;
         do{
-            System.out.print("Choisir une agence : ");
+            System.out.print("Choisir une agence (entier) : ");
             try {
                 agenceId = SC.nextInt();
                 if(agenceId <=0 || agenceId > agences.size()) throw new Exception();
             }catch(Exception e){
                 agenceId = -1;
                 SC.nextLine();
-                System.out.println("Choissisez une agence correct");
+                System.out.println("\nChoissisez une agence correct (entier)");
             }
         }while(agenceId <= 0 || agenceId > agences.size());
         Agence monAgence = agences.get(agenceId);
@@ -275,7 +287,7 @@ public class Main {
      * Affiche toutes les agences
      * Set la variable agences
      */
-    private static void dspAllAgences() {
+    private static void dspAllAgences(boolean isDirect) { //isDirect permet de savoir si la méthode est appelé directement par le menu ou par d'autre méthode
         try {
             agences = AGENCE_DAO.findAll();
             for(Agence uneAgence : agences.values()){
@@ -284,7 +296,10 @@ public class Main {
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
-        SC.nextLine();
+        if(isDirect) {
+            System.out.println(MESSAGE_QUITTE);
+            SC.nextLine();
+        }
     }
 
     /**
@@ -312,6 +327,7 @@ public class Main {
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
+        System.out.println(MESSAGE_QUITTE);
     }
 
 }
