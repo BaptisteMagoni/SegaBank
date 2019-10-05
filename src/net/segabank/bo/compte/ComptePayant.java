@@ -1,12 +1,16 @@
-package net.segabank.bo;
+package net.segabank.bo.compte;
 
 public class ComptePayant extends Compte {
 
     private static int fraisCommission = 5;
 
     public ComptePayant(int id, int solde, int fraisCommission) {
-        super(id, solde);
+        super(id, solde, CompteType.PAYANT);
         this.fraisCommission = fraisCommission;
+    }
+
+    public int getFraisCommission(){
+        return fraisCommission;
     }
 
     @Override

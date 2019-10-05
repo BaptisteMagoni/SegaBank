@@ -1,4 +1,4 @@
-package net.segabank.bo;
+package net.segabank.bo.compte;
 
 public enum CompteType {
 

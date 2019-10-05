@@ -1,4 +1,4 @@
-package net.segabank.bo;
+package net.segabank.bo.compte;
 
 public abstract class Compte {
 
@@ -10,9 +10,6 @@ public abstract class Compte {
         this.id = id;
         this.solde = solde;
         this.compteType = compteType;
-    }
-
-    public Compte(int id, int solde) {
     }
 
     public int getId() { return id; }
