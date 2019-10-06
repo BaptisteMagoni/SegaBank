@@ -6,14 +6,14 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="merge">
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+    <list default="true" id="13454d47-f348-4a8c-a971-d3fa4f34d4d0" name="Default Changelist" comment="final commit">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/csv/2019-10-06.csv" beforeDir="false" afterPath="$PROJECT_DIR$/resources/csv/2019-10-06.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/resources/db.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/segabank/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/segabank/dao/compte/CompteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/dao/compte/CompteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/segabank/dao/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/dao/ConnectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/segabank/service/CsvService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/service/CsvService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,9 +34,6 @@
     </option>
     <expand />
     <select />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="SegaBank" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
