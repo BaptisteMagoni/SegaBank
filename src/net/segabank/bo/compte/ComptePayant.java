@@ -19,12 +19,12 @@ public class ComptePayant extends Compte {
     }
 
     @Override
-    public void retrait(int montant) {
+    public void retrait(double montant) {
         this.solde -= montant * 1+(this.fraisCommission /100);
     }
 
     @Override
-    public void ajout(int montant){
+    public void ajout(double montant){
         this.solde += montant*(1-(this.fraisCommission /100));
     }
 

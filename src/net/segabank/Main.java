@@ -183,10 +183,10 @@ public class Main {
                 boolean verifSuppr = false;
                 switch (action) {
                     case 1:
-                        virementCompte(monCompte);
+                        virementCompte(monCompte, monAgence);
                         break;
                     case 2:
-                        debitCompte(monCompte);
+                        debitCompte(monCompte, monAgence);
                         break;
                     case 3:
                         verifSuppr = deleteCompte(monCompte);
@@ -222,20 +222,20 @@ public class Main {
      * Débit dans un compte
      * @param compte
      */
-    private static void debitCompte(Compte compte) {
+    private static void debitCompte(Compte compte, Agence agence) {
         System.out.println("╔════════════════════════════════════╗");
-        System.out.println("║ Ancien Solde : " + compte.getSolde());
-        System.out.print("Montant à débiter : ");
+        System.out.println("║ Solde d'aujourd'hui : " + compte.getSolde());
         System.out.println("╚════════════════════════════════════╝");
+        System.out.print("Montant à débiter : ");
 
         try{
-            int montant = SC.nextInt();
+            double montant = SC.nextDouble();
             SC.nextLine();
             if(montant < 0) throw new Exception();
             else{
                 compte.retrait(montant);
                 COMPTE_DAO.modifySolde(compte);
-                String[] args = {"Débit", String.valueOf(montant)};
+                String[] args = {String.valueOf(agence.getId()), String.valueOf(compte.getId()), "Débit", String.valueOf(montant)};
                 CsvService.writeCsv(args);
             }
         }catch(Exception e){
@@ -247,19 +247,19 @@ public class Main {
      * Virement dans un compte
      * @param compte
      */
-    private static void virementCompte(Compte compte) {
+    private static void virementCompte(Compte compte, Agence agence) {
         System.out.println("╔════════════════════════════════════╗");
-        System.out.println("║ Ancien Solde : " + compte.getSolde());
-        System.out.print("Montant à virer : ");
+        System.out.println("║ Solde d'aujourd'hui : " + compte.getSolde());
         System.out.println("╚════════════════════════════════════╝");
+        System.out.print("Montant à virer : ");
         try{
-            int montant = SC.nextInt();
+            double montant = SC.nextDouble();
             SC.nextLine();
             if(montant < 0) throw new Exception();
             else{
                 compte.ajout(montant);
                 COMPTE_DAO.modifySolde(compte);
-                String[] args = {"Virement", String.valueOf(montant)};
+                String[] args = {String.valueOf(agence.getId()), String.valueOf(compte.getId()), "Virement", String.valueOf(montant)};
                 CsvService.writeCsv(args);
             }
         }catch(Exception e){

@@ -11,6 +11,8 @@ import java.util.Properties;
 public class CsvService {
 
     private static final String PROPS_FILE = "./resources/src.properties";
+    private static final String FORMAT_CSV = "Heure;Agence;Compte;Action;Somme";
+
     private CsvService(){}
 
     public static void writeCsv(String[] args) throws IOException {
@@ -24,13 +26,13 @@ public class CsvService {
         try{
             if(!file.exists()) {
                 file.createNewFile();
-                writeInCsv(file, "Heure;Action;Somme");
+                writeInCsv(file, FORMAT_CSV);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        writeInCsv(file, getTimeAction() + ";" + args[0] + ";" + args[1]);
+        writeInCsv(file, getTimeAction() + ";" + args[0] + ";" + args[1] + ";" + args[2] + ";" + args[3]);
 
     }
 

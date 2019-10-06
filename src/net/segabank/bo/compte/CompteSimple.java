@@ -19,7 +19,7 @@ public class CompteSimple extends Compte{
         this.decouvert = decouvert;
     }
 
-    private boolean estDebitable(int montant){
+    private boolean estDebitable(double montant){
         return montant <this.solde+this.decouvert;
     }
 
@@ -28,7 +28,7 @@ public class CompteSimple extends Compte{
     }
 
     @Override
-    public void retrait(int montant) {
+    public void retrait(double montant) {
         if(estDebitable(montant)){
             this.solde -= montant;
         }
