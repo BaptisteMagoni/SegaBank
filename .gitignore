@@ -6,3 +6,4 @@
 *.ipr
 db.properties
 .idea/workspace.xml
+*.xml
