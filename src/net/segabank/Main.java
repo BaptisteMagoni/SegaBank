@@ -18,11 +18,12 @@ import java.util.concurrent.ExecutionException;
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
-    private static final String MESSAGE_QUITTE = "Appuyer sur 'Entrée' pour revenir au menu principal";
+    private static final String MESSAGE_QUITTE = "Appuyer sur 'Entrez' pour revenir au menu principal";
     private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
     private static final IDAOAgence<Agence, Integer> AGENCE_DAO = new AgenceDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
     private static Map<Integer, CompteType> compteTypes = new HashMap<>();
+    private static Map<Integer, String> fileCsv = new HashMap<>();
 
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = ConnectionManager.getConnection();
@@ -44,7 +45,6 @@ public class Main {
                     // Création compte
                     case 3:
                         dspMenuCreationCompte();
-                        SC.nextLine();
                         break;
                     // Afficher la liste des agences
                     case 4:
@@ -52,20 +52,24 @@ public class Main {
                         break;
                     case 5:
                         dspMenuAgence();
+                        break;
+                    case 6:
+                        dspMenuExportCsv();
                         SC.nextLine();
                         break;
                 }
                 dspMenu();
                 try {
                     action = SC.nextByte();
-                    if (action > 6 || action < 1) throw new Exception();
+                    if (action > 7 || action < 1) throw new Exception();
                 } catch (Exception e) {
                     action = -1;
                     SC.nextLine();
                     System.out.println("Veuillez saisir une option correct (entier)");
+                    SC.nextLine();
                 }
                 SC.nextLine();
-            } while (action != 6);
+            } while (action != 7);
 
             System.out.println("╔════════════════════════════════════╗");
             System.out.println("╠══════ A BIENTOT SUR SEGABANK ══════╣");
@@ -77,9 +81,39 @@ public class Main {
         }
     }
 
-    /**
-     * Menu de création d'un compte
-     */
+    private static void dspMenuExportCsv() throws IOException {
+        fileCsv.clear();
+        fileCsv = CsvService.getAllFile();
+        boolean resp = true;
+        do{
+            System.out.println("╔══");
+            for(Map.Entry<Integer, String> entry : fileCsv.entrySet())
+                System.out.println("║ " + (entry.getKey()) + " - " + entry.getValue().replace(".csv", ""));
+            System.out.println("╚══");
+            int idFile = -1;
+            if(!resp)
+                System.out.println("Une erreur c'est produite lors de l'export du fichier !");
+            do {
+                System.out.print("Choisissez le fichier (entier) : ");
+                try {
+                    idFile = SC.nextInt();
+                    if (idFile <= 0 || idFile > fileCsv.size()) throw new Exception();
+                } catch (Exception e) {
+                    idFile = -1;
+                    SC.nextLine();
+                    System.out.print("\nVeuillez saisir une option correct (entier)");
+                }
+            } while (idFile <= 0 || idFile > fileCsv.size());
+            SC.nextLine();
+            String fileName = fileCsv.get(idFile);
+            System.out.print("Dans quelle dossier voulez-vous copier le fichier csv ? : ");
+            String destination = SC.nextLine();
+            System.out.println(MESSAGE_QUITTE);
+            Properties props = CsvService.loadProperties();
+            resp = CsvService.exportCsv(props.getProperty("scr.directory"), destination, fileName);
+        }while (!resp);
+    }
+
     private static void dspMenuCreationCompte() {
         try{
             Agence monAgence = chooseAgence();
@@ -89,9 +123,7 @@ public class Main {
                 try{
                     System.out.print("Choisir le type de compte (entier) : ");
                     typeCompte = SC.nextInt();
-                    if(typeCompte <= 0 || typeCompte > compteTypes.size()) throw new Exception();
                 }catch(Exception e){
-                    SC.nextLine();
                     typeCompte = -1;
                     System.out.println("\nChoissisez un compte valable (entier)");
                 }
@@ -107,7 +139,7 @@ public class Main {
             }
             if(compte != null) {
                 compte = COMPTE_DAO.create(compte, compteType, monAgence);
-                // agences.get(monAgence.getId()).addCompte(compte);
+                agences.get(monAgence.getId()).addCompte(compte);
                 System.out.println("Vous venez de créer un compte de type " + compteType.name());
             }
 
@@ -140,7 +172,8 @@ public class Main {
         System.out.println("║ 4  → Afficher la liste des agences ║");
         System.out.println("║ 5  → Sélectionner une agence       ║");
         System.out.println("║     ↳ Afficher tous les comptes    ║");
-        System.out.println("║ 6  → Quitter                       ║");
+        System.out.println("║ 6  → Exporter en csv               ║");
+        System.out.println("║ 7  → Quitter                       ║");
         System.out.println("╚════════════════════════════════════╝");
         System.out.println("");
         System.out.print("Saisir une action (entier) : ");
@@ -306,7 +339,6 @@ public class Main {
             switch(action){
                 case 1:
                     dspCompteByAgence(monAgence);
-                    SC.nextLine();
                     break;
             }
             System.out.println("╔════════════════════════════════════╗");
@@ -348,9 +380,7 @@ public class Main {
             }
         }while(agenceId <= 0 || agenceId > agences.size());
         Agence monAgence = agences.get(agenceId);
-        System.out.println("\n╔═══════════════════════════════════");
-        System.out.println("║  Agence choisie : " + monAgence);
-        System.out.println("╚═══════════════════════════════════\n");
+        System.out.println("Agence choisie : " + monAgence);
         return monAgence;
     }
 

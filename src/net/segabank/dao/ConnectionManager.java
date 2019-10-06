@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionManager {
+
     private static Connection connection;
     private static final String PROPS_FILE = "./resources/db.properties";
 
