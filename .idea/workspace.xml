@@ -57,7 +57,8 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Workspace Java/b3-intro-poo" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -133,7 +134,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="" />
+      <changelist id="13454d47-f348-4a8c-a971-d3fa4f34d4d0" name="Default Changelist" comment="final commit" />
       <created>1570193894752</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -145,6 +146,8 @@
       <workItem from="1570216282215" duration="8419000" />
       <workItem from="1570349962216" duration="8869000" />
       <workItem from="1570370348346" duration="1627000" />
+      <workItem from="1570383841305" duration="12000" />
+      <workItem from="1570383871110" duration="1294000" />
     </task>
     <task id="LOCAL-00001" summary="ajout gitignore&#10;modification objet">
       <created>1570197077964</created>

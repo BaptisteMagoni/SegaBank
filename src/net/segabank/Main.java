@@ -90,18 +90,18 @@ public class Main {
             for(Map.Entry<Integer, String> entry : fileCsv.entrySet())
                 System.out.println("║ " + (entry.getKey()) + " - " + entry.getValue().replace(".csv", ""));
             System.out.println("╚══");
-            int idFile = -1;
+            int idFile = 0;
             if(!resp)
                 System.out.println("Une erreur c'est produite lors de l'export du fichier !");
             do {
-                System.out.print("Choisissez le fichier (entier) : ");
+                if(idFile != -1)
+                    System.out.print("Choisissez le fichier (entier) : ");
                 try {
                     idFile = SC.nextInt();
                     if (idFile <= 0 || idFile > fileCsv.size()) throw new Exception();
                 } catch (Exception e) {
                     idFile = -1;
-                    SC.nextLine();
-                    System.out.print("\nVeuillez saisir une option correct (entier)");
+                    System.out.print("\nVeuillez saisir une option correct (entier) : ");
                 }
             } while (idFile <= 0 || idFile > fileCsv.size());
             SC.nextLine();
@@ -134,9 +134,31 @@ public class Main {
             CompteType compteType = compteTypes.get(typeCompte-1);
             Compte compte = null;
             if(compteType.equals(CompteType.SIMPLE)){
-                compte = new CompteSimple();
+                CompteSimple compteSimple = new CompteSimple();
+                int decouvert = 0;
+                boolean erreur = false;
+                do {
+                    if(!erreur)
+                        System.out.print("Choissisez votre découvert : ");
+                    else
+                        System.out.print("Découvert erroné ! Réessayer");
+                    decouvert = SC.nextInt();
+                }while(decouvert < 0);
+                compteSimple.setDecouvert(decouvert);
+                compte = compteSimple;
             }else if(compteType.equals(CompteType.EPARGNE)){
-                compte = new CompteEpargne();
+                CompteEpargne compteEpargne = new CompteEpargne();
+                int tauxInteret = 0;
+                boolean erreur = false;
+                do {
+                    if(!erreur)
+                        System.out.print("Choissisez votre taux d'intérêt : ");
+                    else
+                        System.out.print("Taux d'intérêt erroné ! Réessayer");
+                    tauxInteret = SC.nextInt();
+                }while(tauxInteret < 0);
+                compteEpargne.setTauxInteret(tauxInteret);
+                compte = compteEpargne;
             }else if(compteType.equals(CompteType.PAYANT)){
                 compte = new ComptePayant();
             }
