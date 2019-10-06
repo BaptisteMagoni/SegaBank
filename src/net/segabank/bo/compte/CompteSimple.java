@@ -11,6 +11,10 @@ public class CompteSimple extends Compte{
         this.decouvert = decouvert;
     }
 
+    public CompteSimple(){
+        super(CompteType.SIMPLE);
+    }
+
     public void setDecouvert(int decouvert){
         this.decouvert = decouvert;
     }

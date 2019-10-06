@@ -10,6 +10,10 @@ public class ComptePayant extends Compte {
         super(id, solde, CompteType.PAYANT);
     }
 
+    public ComptePayant(){
+        super(CompteType.PAYANT);
+    }
+
     public int getFraisCommission(){
         return fraisCommission;
     }

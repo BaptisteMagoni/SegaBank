@@ -19,6 +19,15 @@ public class Agence {
         this.comptes = new ArrayList<Compte>();
     }
 
+    public List<Compte> getComptes(){
+        return comptes;
+    }
+
+    public void addCompte(Compte compte){
+        if(!comptes.contains(compte))
+            comptes.add(compte);
+    }
+
     public int getId() {
         return id;
     }

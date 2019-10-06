@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence> {
 
-    private static final String CREATE_COMPTE = "INSERT INTO contacts (solde, tauxInteret, id_agence, decouvert, type_banque) VALUES (?,?,?,?,?)";
+    private static final String CREATE_COMPTE = "INSERT INTO compte (solde, tauxInteret, id_agence, decouvert, type_compte) VALUES (?,?,?,?,?)";
     private static final String SELECT_ALL_COMPTE = "SELECT * FROM compte";
     private static final String SELECT_COMPTE_TYPE = "SELECT * FROM compte WHERE type_compte = ?";
     private static final String SELECT_COMPTE_BY_ID = "SELECT * FROM compte WHERE id = ?";
@@ -23,12 +23,21 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     @Override
     public Compte create(Compte object, CompteType compteType, Agence agence) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = ConnectionManager.getConnection();
+        Compte compte = null;
         if(connection != null) {
             try (PreparedStatement ps = connection.prepareStatement(CREATE_COMPTE, Statement.RETURN_GENERATED_KEYS)) {
-                return actionArguments(object, compteType, ps, agence);
+                compte = actionArguments(object, compteType, ps, agence);
+                ps.executeUpdate();
+                try(ResultSet rs = ps.getGeneratedKeys()){
+                    while(rs.next()){
+                        compte.setId(rs.getInt(1));
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
-        return null;
+        return compte;
     }
 
     @Override
@@ -148,21 +157,21 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
     }
 
     private Compte actionArguments(Compte object, CompteType compteType, PreparedStatement ps, Agence agence) throws SQLException {
+        Compte compte = null;
         if (compteType.equals(CompteType.SIMPLE)) {
             CompteSimple compteSimple = (CompteSimple) object;
             this.setArguments(ps, compteSimple.getSolde(), -1, agence.getId(), compteSimple.getDecouvert(), compteType);
-            return compteSimple;
+            compte = compteSimple;
         }else if(compteType.equals(CompteType.EPARGNE)){
             CompteEpargne compteEpargne = (CompteEpargne) object;
             this.setArguments(ps, compteEpargne.getSolde(), compteEpargne.getTauxInteret(), agence.getId(), -1, compteType);
-            return compteEpargne;
+            compte = compteEpargne;
         }else if(compteType.equals(CompteType.PAYANT)){
             ComptePayant comptePayant = (ComptePayant) object;
             this.setArguments(ps, comptePayant.getSolde(), -1, agence.getId(), -1, compteType);
-            return comptePayant;
+            compte = comptePayant;
         }
-        ps.execute();
-        return null;
+        return compte;
     }
 
     private void setArguments(PreparedStatement ps, int solde, int tauxInteret, int id_agence, int decouvert, CompteType compteType) throws SQLException {
