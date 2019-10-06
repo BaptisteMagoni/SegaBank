@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="SegaBank:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="workspace">
+    <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="merge">
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/csv/2019-10-06.csv" beforeDir="false" afterPath="$PROJECT_DIR$/resources/csv/2019-10-06.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/resources/db.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/segabank/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/segabank/dao/compte/CompteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/segabank/dao/compte/CompteDAO.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +60,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Workspace Java/b3-intro-poo" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
