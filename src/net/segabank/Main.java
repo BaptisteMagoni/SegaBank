@@ -110,9 +110,12 @@ public class Main {
             String fileName = fileCsv.get(idFile);
             System.out.print("Dans quelle dossier voulez-vous copier le fichier csv ? : ");
             String destination = SC.nextLine();
-            System.out.println(MESSAGE_QUITTE);
-            Properties props = CsvService.loadProperties();
-            resp = CsvService.exportCsv(props.getProperty("scr.directory"), destination, fileName);
+            if(!destination.isEmpty()) {
+                System.out.println(MESSAGE_QUITTE);
+                Properties props = CsvService.loadProperties();
+                resp = CsvService.exportCsv(props.getProperty("scr.directory"), destination, fileName);
+            }else
+                resp = false;
         }while (!resp);
     }
 
