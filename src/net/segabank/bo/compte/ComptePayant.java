@@ -6,7 +6,7 @@ public class ComptePayant extends Compte {
 
     private static int fraisCommission = 5;
 
-    public ComptePayant(int id, int solde){
+    public ComptePayant(int id, double solde){
         super(id, solde, CompteType.PAYANT);
     }
 

@@ -6,7 +6,7 @@ public class CompteSimple extends Compte{
 
     private int decouvert;
 
-    public CompteSimple(int id, int solde, int decouvert) {
+    public CompteSimple(int id, double solde, int decouvert) {
         super(id, solde, CompteType.SIMPLE);
         this.decouvert = decouvert;
     }

@@ -66,7 +66,7 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         Connection connection = ConnectionManager.getConnection();
         if(connection != null) {
             try (PreparedStatement ps = connection.prepareStatement(UPDATE_SOLDE_COMPTE)) {
-                ps.setInt(1, object.getSolde());
+                ps.setDouble(1, object.getSolde());
                 ps.setInt(2, object.getId());
                 ps.execute();
             }
@@ -174,18 +174,18 @@ public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence
         return compte;
     }
 
-    private void setArguments(PreparedStatement ps, int solde, int tauxInteret, int id_agence, int decouvert, CompteType compteType) throws SQLException {
-        if(solde != -1) ps.setInt(1, solde);
-        else ps.setNull(1, Types.INTEGER);
+    private void setArguments(PreparedStatement ps, double solde, int tauxInteret, int id_agence, int decouvert, CompteType compteType) throws SQLException {
+        if(solde != -1) ps.setDouble(1, solde);
+        else ps.setNull(1, Types.DOUBLE);
 
-        if(tauxInteret != -1) ps.setInt(2, tauxInteret);
-        else ps.setNull(2, Types.INTEGER);
+        if(tauxInteret != -1) ps.setDouble(2, tauxInteret);
+        else ps.setNull(2, Types.DOUBLE);
 
-        if(id_agence != -1) ps.setInt(3, id_agence);
-        else ps.setNull(3, Types.INTEGER);
+        if(id_agence != -1) ps.setDouble(3, id_agence);
+        else ps.setNull(3, Types.DOUBLE);
 
-        if(decouvert != -1) ps.setInt(4, decouvert);
-        else ps.setNull(4, Types.INTEGER);
+        if(decouvert != -1) ps.setDouble(4, decouvert);
+        else ps.setNull(4, Types.DOUBLE);
 
         ps.setString(5, compteType.name());
     }

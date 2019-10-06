@@ -5,10 +5,10 @@ import net.segabank.bo.agence.Agence;
 public abstract class Compte {
 
     protected int id;
-    protected int solde;
+    protected double solde;
     private CompteType compteType;
 
-    public Compte(int id, int solde, CompteType compteType) {
+    public Compte(int id, double solde, CompteType compteType) {
         this.id = id;
         this.solde = solde;
         this.compteType = compteType;
@@ -20,16 +20,16 @@ public abstract class Compte {
     }
 
     public int getId() { return id; }
-    public int getSolde() { return solde; }
+    public double getSolde() { return solde; }
 
     public void setId(int id) { this.id = id; }
-    public void setSolde(int solde) { this.solde = solde; }
+    public void setSolde(double solde) { this.solde = solde; }
 
-    public void ajout(int montant){
+    public void ajout(double montant){
         this.solde += montant;
     }
 
-    public void retrait(int montant){
+    public void retrait(double montant){
         this.solde -= montant;
     }
 
