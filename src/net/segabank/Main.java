@@ -1,65 +1,125 @@
 package net.segabank;
 
 import net.segabank.bo.agence.Agence;
-import net.segabank.bo.compte.Compte;
-import net.segabank.bo.compte.CompteType;
+import net.segabank.bo.compte.*;
+import net.segabank.dao.ConnectionManager;
 import net.segabank.dao.agence.AgenceDAO;
 import net.segabank.dao.agence.IDAOAgence;
 import net.segabank.dao.compte.CompteDAO;
 import net.segabank.dao.compte.IDAOCompte;
+import net.segabank.service.CsvService;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
+    private static final String MESSAGE_QUITTE = "Appuyer sur 'Entrez' pour revenir au menu principal";
     private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
     private static final IDAOAgence<Agence, Integer> AGENCE_DAO = new AgenceDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
+    private static Map<Integer, CompteType> compteTypes = new HashMap<>();
 
-    public static void main(String[] args) {
-        byte action = -1;
-        do{
-            switch (action){
-                // Afficher la liste des comptes
-                case 1:
-                    dspAllCompte();
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
+        Connection connection = ConnectionManager.getConnection();
+        if (connection != null) {
+            loadTypeCompte();
+            agences = AGENCE_DAO.findAll();
+            byte action = -1;
+            do {
+                switch (action) {
+                    // Afficher la liste des comptes
+                    case 1:
+                        dspAllCompte();
+                        SC.nextLine();
+                        break;
+                    // Afficher le menu des actions sur les comptes
+                    case 2:
+                        dspMenuCompte();
+                        SC.nextLine();
+                        break;
+                    // Création compte
+                    case 3:
+                        dspMenuCreationCompte();
+                        SC.nextLine();
+                        break;
+                    // Afficher la liste des agences
+                    case 4:
+                        dspAllAgences(true);
+                        break;
+                    case 5:
+                        dspMenuAgence();
+                        SC.nextLine();
+                        break;
+                }
+                dspMenu();
+                try {
+                    action = SC.nextByte();
+                    if (action > 6 || action < 1) throw new Exception();
+                } catch (Exception e) {
+                    action = -1;
                     SC.nextLine();
-                    break;
-                // Afficher le menu des actions sur les comptes
-                case 2 :
-                    dspMenuCompte();
-                    SC.nextLine();
-                    break;
-                // Création compte
-                case 3:
-                    break;
-                // Afficher la liste des agences
-                case 4:
-                    dspAllAgences();
-                    break;
-                case 5:
-                    dspMenuAgence();
-                    SC.nextLine();
-                    break;
-            }
-            dspMenu();
-            try{
-                action = SC.nextByte();
-                if(action > 6 || action < 1) throw new Exception();
-            }catch( Exception e){
-                action = -1;
+                    System.out.println("Veuillez saisir une option correct (entier)");
+                }
                 SC.nextLine();
-                System.out.println("Veuillez saisir une option correct");
-            }
-            SC.nextLine();
-        }while(action != 6);
+            } while (action != 6);
 
-        System.out.println("╔════════════════════════════════════╗");
-        System.out.println("╠══════ A BIENTOT SUR SEGABANK ══════╣");
-        System.out.println("╚════════════════════════════════════╝");
+            System.out.println("╔════════════════════════════════════╗");
+            System.out.println("╠══════ A BIENTOT SUR SEGABANK ══════╣");
+            System.out.println("╚════════════════════════════════════╝");
+        }else{
+            System.out.println("╔════════════════════════════════════╗");
+            System.out.println("╠═════ Vérifier votre connexion ═════╣");
+            System.out.println("╚════════════════════════════════════╝");
+        }
+    }
+    private static void dspMenuCreationCompte() {
+        try{
+            Agence monAgence = chooseAgence();
+            dspTypeCompte();
+            int typeCompte = -1;
+            do{
+                try{
+                    System.out.print("Choisir le type de compte (entier) : ");
+                    typeCompte = SC.nextInt();
+                }catch(Exception e){
+                    typeCompte = -1;
+                    System.out.println("\nChoissisez un compte valable (entier)");
+                }
+            }while(typeCompte <= 0 || typeCompte > compteTypes.size());
+            CompteType compteType = compteTypes.get(typeCompte-1);
+            Compte compte = null;
+            if(compteType.equals(CompteType.SIMPLE)){
+                compte = new CompteSimple();
+            }else if(compteType.equals(CompteType.EPARGNE)){
+                compte = new CompteEpargne();
+            }else if(compteType.equals(CompteType.PAYANT)){
+                compte = new ComptePayant();
+            }
+            if(compte != null) {
+                compte = COMPTE_DAO.create(compte, compteType, monAgence);
+                agences.get(monAgence.getId()).addCompte(compte);
+                System.out.println("Vous venez de créer un compte de type " + compteType.name());
+            }
+
+        }catch(Exception e){
+            System.out.println("[Erreur] Compte non créer");
+        }
+    }
+
+    private static void loadTypeCompte(){
+        for(int i=0;i<CompteType.values().length;i++)
+            compteTypes.put(i, CompteType.values()[i]);
+    }
+
+    private static void dspTypeCompte(){
+        int i = 0;
+        for(Map.Entry<Integer, CompteType> entry : compteTypes.entrySet())
+            System.out.println((entry.getKey()+1) + " - " + entry.getValue());
     }
 
     public static void dspMenu(){
@@ -79,7 +139,7 @@ public class Main {
         System.out.println("║ 6  → Quitter                       ║");
         System.out.println("╚════════════════════════════════════╝");
         System.out.println("");
-        System.out.print("Saisir une action : ");
+        System.out.print("Saisir une action (entier) : ");
     }
 
     public static void dspMenuCompte(){
@@ -104,13 +164,13 @@ public class Main {
         if(sizeCompte > 0 ){
             do{
                 try{
-                    System.out.print("Choisir un compte : ");
+                    System.out.print("Choisir un compte (entier) : ");
                     compteId = SC.nextInt();
                     if(compteId >= sizeCompte || compteId < 0) throw new Exception();
                 }catch(Exception e){
                     compteId = -1;
                     SC.nextLine();
-                    System.out.println("Choissisez un compte valable");
+                    System.out.println("\nChoissisez un compte valable (entier)");
                 }
             }while(compteId < 0 || compteId > sizeCompte);
             monCompte = lesComptesParAgence.get(compteId);
@@ -148,14 +208,14 @@ public class Main {
                     System.out.println("║     ↳ 5 Retour                     ║");
                     System.out.println("╚════════════════════════════════════╝");
                     System.out.println("");
-                    System.out.print("Saisir une action :");
+                    System.out.print("Saisir une action (entier) :");
                     try{
                         action = SC.nextByte();
                         if(action > 5 || action < 1) throw new Exception();
                     }catch(Exception e ){
                         action = -1;
                         SC.nextLine();
-                        System.out.println("Veuillez saisir une option correct");
+                        System.out.println("\nVeuillez saisir une option correct (entier)");
                     }
                 }else{
                     action = 5;
@@ -176,6 +236,8 @@ public class Main {
             else{
                 compte.retrait(montant);
                 COMPTE_DAO.modifySolde(compte);
+                String[] args = {"Débit", String.valueOf(montant)};
+                CsvService.writeCsv(args);
             }
         }catch(Exception e){
             System.out.println("Montant incorrect");
@@ -192,6 +254,8 @@ public class Main {
             else{
                 compte.ajout(montant);
                 COMPTE_DAO.modifySolde(compte);
+                String[] args = {"Virement", String.valueOf(montant)};
+                CsvService.writeCsv(args);
             }
         }catch(Exception e){
             System.out.println("Montant incorrect");
@@ -233,12 +297,12 @@ public class Main {
             System.out.println("║     ↳ 2 Retour                     ║");
             System.out.println("╚════════════════════════════════════╝");
             System.out.println("");
-            System.out.print("Saisir une action ");
+            System.out.print("Saisir une action (entier) ");
             try{
                 action = SC.nextByte();
                 if(action > 2 || action < 1) throw new Exception();
             }catch (Exception e ){
-                System.out.println("Veuillez saisir une option correct");
+                System.out.println("\nVeuillez saisir une option correct (entier)");
                 SC.nextLine();
                 action = -1;
             }
@@ -253,17 +317,17 @@ public class Main {
      * @return Agence
      */
     private static Agence chooseAgence() {
-        dspAllAgences();
+        dspAllAgences(false);
         int agenceId = -1;
         do{
-            System.out.print("Choisir une agence : ");
+            System.out.print("Choisir une agence (entier) : ");
             try {
                 agenceId = SC.nextInt();
                 if(agenceId <=0 || agenceId > agences.size()) throw new Exception();
             }catch(Exception e){
                 agenceId = -1;
                 SC.nextLine();
-                System.out.println("Choissisez une agence correct");
+                System.out.println("\nChoissisez une agence correct (entier)");
             }
         }while(agenceId <= 0 || agenceId > agences.size());
         Agence monAgence = agences.get(agenceId);
@@ -275,16 +339,15 @@ public class Main {
      * Affiche toutes les agences
      * Set la variable agences
      */
-    private static void dspAllAgences() {
-        try {
-            agences = AGENCE_DAO.findAll();
-            for(Agence uneAgence : agences.values()){
-                System.out.println(uneAgence);
-            }
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println(e.getMessage());
+    private static void dspAllAgences(boolean isDirect) { //isDirect permet de savoir si la méthode est appelé directement par le menu ou par d'autre méthode
+        for(Agence uneAgence : agences.values()){
+            System.out.println(uneAgence);
         }
-        SC.nextLine();
+
+        if(isDirect) {
+            System.out.println(MESSAGE_QUITTE);
+            SC.nextLine();
+        }
     }
 
     /**
@@ -312,6 +375,7 @@ public class Main {
         } catch (SQLException | IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
+        System.out.println(MESSAGE_QUITTE);
     }
 
 }

@@ -14,6 +14,11 @@ public abstract class Compte {
         this.compteType = compteType;
     }
 
+    public Compte(CompteType compteType){
+        this.solde = 0;
+        this.compteType = compteType;
+    }
+
     public int getId() { return id; }
     public int getSolde() { return solde; }
 

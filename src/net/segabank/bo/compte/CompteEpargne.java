@@ -11,6 +11,10 @@ public class CompteEpargne extends Compte {
         this.tauxInteret = tauxInteret;
     }
 
+    public CompteEpargne(){
+        super(CompteType.EPARGNE);
+    }
+
     public int getTauxInteret(){
         return tauxInteret;
     }
