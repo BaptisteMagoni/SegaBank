@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="" />
+    <list default="true" id="2d4072e4-5d63-4962-9de3-4e7354205897" name="Default Changelist" comment="workspace">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/resources/db.properties" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +25,9 @@
     <expand />
     <select />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="SegaBank" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -34,8 +40,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1RjwJItL0dJnBDuf9kHXjHmq2Jf" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -157,7 +166,70 @@
       <option name="project" value="LOCAL" />
       <updated>1570278588945</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="-dbprop">
+      <created>1570279028870</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1570279028870</updated>
+    </task>
+    <task id="LOCAL-00006" summary="-dbprop">
+      <created>1570279600694</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1570279600694</updated>
+    </task>
+    <task id="LOCAL-00007" summary="modify toString&#10;main">
+      <created>1570281664675</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1570281664675</updated>
+    </task>
+    <task id="LOCAL-00008" summary="modify main">
+      <created>1570283317158</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1570283317158</updated>
+    </task>
+    <task id="LOCAL-00009" summary="modify main">
+      <created>1570284110566</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1570284110566</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Commit main&#10;Ajout des fonctionnalitées dans le main&#10;Modification du toString de agence">
+      <created>1570288868329</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1570288868329</updated>
+    </task>
+    <task id="LOCAL-00011" summary="modify main">
+      <created>1570290515917</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1570290515917</updated>
+    </task>
+    <task id="LOCAL-00012" summary="modify main">
+      <created>1570291731020</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1570291731020</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Main fonctionnel&#10;Modify toString comptes">
+      <created>1570295930856</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1570295930856</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,10 +249,16 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="ajout gitignore&#10;modification objet" />
     <MESSAGE value="move files / merge" />
     <MESSAGE value="commit" />
     <MESSAGE value="modif main" />
-    <option name="LAST_COMMIT_MESSAGE" value="modif main" />
+    <MESSAGE value="-dbprop" />
+    <MESSAGE value="modify toString&#10;main" />
+    <MESSAGE value="Commit main&#10;Ajout des fonctionnalitées dans le main&#10;Modification du toString de agence" />
+    <MESSAGE value="modify main" />
+    <MESSAGE value="Main fonctionnel&#10;Modify toString comptes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Main fonctionnel&#10;Modify toString comptes" />
   </component>
 </project>

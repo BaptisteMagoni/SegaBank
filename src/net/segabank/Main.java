@@ -131,7 +131,6 @@ public class Main {
         System.out.println("║     ↳ Virement                     ║");
         System.out.println("║     ↳ Débit                        ║");
         System.out.println("║     ↳ Supprimmer le compte         ║");
-        System.out.println("║     ↳ Exporter les opérations      ║");
         System.out.println("║ 3  → Créer un compte               ║");
         System.out.println("║ 4  → Afficher la liste des agences ║");
         System.out.println("║ 5  → Sélectionner une agence       ║");
@@ -176,27 +175,21 @@ public class Main {
             monCompte = lesComptesParAgence.get(compteId);
         }else{
             System.out.println("Il n'y a plus de compte pour cette agence");
-            action = 5;
+            action = 4;
         }
 
-        if(action != 5){
-            while(action != 5) {
+        if(action != 4){
+            while(action != 4) {
                 boolean verifSuppr = false;
                 switch (action) {
                     case 1:
-                        System.out.println("Virement");
                         virementCompte(monCompte);
                         break;
                     case 2:
-                        System.out.println("Débit");
                         debitCompte(monCompte);
                         break;
                     case 3:
-                        System.out.println("Supprimmer le compte");
                         verifSuppr = deleteCompte(monCompte);
-                        break;
-                    case 4:
-                        System.out.println("Exporter les opérations");
                         break;
                 }
                 if(!verifSuppr){
@@ -204,21 +197,20 @@ public class Main {
                     System.out.println("║     ↳ 1 Virement                   ║");
                     System.out.println("║     ↳ 2 Débit                      ║");
                     System.out.println("║     ↳ 3 Supprimmer le compte       ║");
-                    System.out.println("║     ↳ 4 Exporter les opérations    ║");
-                    System.out.println("║     ↳ 5 Retour                     ║");
+                    System.out.println("║     ↳ 4 Retour                     ║");
                     System.out.println("╚════════════════════════════════════╝");
                     System.out.println("");
                     System.out.print("Saisir une action (entier) :");
                     try{
                         action = SC.nextByte();
-                        if(action > 5 || action < 1) throw new Exception();
+                        if(action > 4 || action < 1) throw new Exception();
                     }catch(Exception e ){
                         action = -1;
                         SC.nextLine();
                         System.out.println("\nVeuillez saisir une option correct (entier)");
                     }
                 }else{
-                    action = 5;
+                    action = 4;
                 }
             }
         }
@@ -226,9 +218,16 @@ public class Main {
 
     }
 
+    /**
+     * Débit dans un compte
+     * @param compte
+     */
     private static void debitCompte(Compte compte) {
-        System.out.println("Ancien Solde : " + compte.getSolde());
+        System.out.println("╔════════════════════════════════════╗");
+        System.out.println("║ Ancien Solde : " + compte.getSolde());
         System.out.print("Montant à débiter : ");
+        System.out.println("╚════════════════════════════════════╝");
+
         try{
             int montant = SC.nextInt();
             SC.nextLine();
@@ -244,9 +243,15 @@ public class Main {
         }
     }
 
+    /**
+     * Virement dans un compte
+     * @param compte
+     */
     private static void virementCompte(Compte compte) {
-        System.out.println("Ancien Solde : " + compte.getSolde());
+        System.out.println("╔════════════════════════════════════╗");
+        System.out.println("║ Ancien Solde : " + compte.getSolde());
         System.out.print("Montant à virer : ");
+        System.out.println("╚════════════════════════════════════╝");
         try{
             int montant = SC.nextInt();
             SC.nextLine();
@@ -262,6 +267,12 @@ public class Main {
         }
     }
 
+    /**
+     * Méthode de suppression d'un compte
+     * true si suppr sinon false
+     * @param compte
+     * @return boolean
+     */
     private static boolean deleteCompte(Compte compte) {
         System.out.print("Voulez vous vraiment supprimmer le compte ? (Y/N) :");
         boolean ret = false;
@@ -288,7 +299,6 @@ public class Main {
         do{
             switch(action){
                 case 1:
-                    System.out.println("Afficher tous les comptes");
                     dspCompteByAgence(monAgence);
                     break;
             }
