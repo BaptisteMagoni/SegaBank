@@ -4,5 +4,5 @@
 *.iws
 *.iml
 *.ipr
-*.properties
+db.properties
 .idea/workspace.xml
