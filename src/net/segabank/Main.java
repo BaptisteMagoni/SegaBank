@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class Main {
 
     private static final Scanner SC = new Scanner(System.in);
-    private static final String MESSAGE_QUITTE = "Appuyer sur 'Entrez' pour revenir au menu principal";
+    private static final String MESSAGE_QUITTE = "Appuyer sur 'Entrée' pour revenir au menu principal";
     private static final IDAOCompte<CompteType, Compte, Integer, Agence> COMPTE_DAO = new CompteDAO();
     private static final IDAOAgence<Agence, Integer> AGENCE_DAO = new AgenceDAO();
     private static Map<Integer, Agence> agences = new HashMap<>();
@@ -40,7 +40,6 @@ public class Main {
                     // Afficher le menu des actions sur les comptes
                     case 2:
                         dspMenuCompte();
-                        SC.nextLine();
                         break;
                     // Création compte
                     case 3:
@@ -77,6 +76,10 @@ public class Main {
             System.out.println("╚════════════════════════════════════╝");
         }
     }
+
+    /**
+     * Menu de création d'un compte
+     */
     private static void dspMenuCreationCompte() {
         try{
             Agence monAgence = chooseAgence();
@@ -86,7 +89,9 @@ public class Main {
                 try{
                     System.out.print("Choisir le type de compte (entier) : ");
                     typeCompte = SC.nextInt();
+                    if(typeCompte <= 0 || typeCompte > compteTypes.size()) throw new Exception();
                 }catch(Exception e){
+                    SC.nextLine();
                     typeCompte = -1;
                     System.out.println("\nChoissisez un compte valable (entier)");
                 }
@@ -102,7 +107,7 @@ public class Main {
             }
             if(compte != null) {
                 compte = COMPTE_DAO.create(compte, compteType, monAgence);
-                agences.get(monAgence.getId()).addCompte(compte);
+                // agences.get(monAgence.getId()).addCompte(compte);
                 System.out.println("Vous venez de créer un compte de type " + compteType.name());
             }
 
@@ -204,6 +209,7 @@ public class Main {
                     try{
                         action = SC.nextByte();
                         if(action > 4 || action < 1) throw new Exception();
+                        SC.nextLine();
                     }catch(Exception e ){
                         action = -1;
                         SC.nextLine();
@@ -300,6 +306,7 @@ public class Main {
             switch(action){
                 case 1:
                     dspCompteByAgence(monAgence);
+                    SC.nextLine();
                     break;
             }
             System.out.println("╔════════════════════════════════════╗");
@@ -341,7 +348,9 @@ public class Main {
             }
         }while(agenceId <= 0 || agenceId > agences.size());
         Agence monAgence = agences.get(agenceId);
-        System.out.println("Agence choisie : " + monAgence);
+        System.out.println("\n╔═══════════════════════════════════");
+        System.out.println("║  Agence choisie : " + monAgence);
+        System.out.println("╚═══════════════════════════════════\n");
         return monAgence;
     }
 

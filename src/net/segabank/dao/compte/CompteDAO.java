@@ -12,7 +12,7 @@ import java.util.List;
 public class CompteDAO implements IDAOCompte<CompteType, Compte, Integer, Agence> {
 
     private static final String CREATE_COMPTE = "INSERT INTO compte (solde, tauxInteret, id_agence, decouvert, type_compte) VALUES (?,?,?,?,?)";
-    private static final String SELECT_ALL_COMPTE = "SELECT * FROM compte";
+    private static final String SELECT_ALL_COMPTE = "SELECT * FROM compte ORDER BY solde, type_compte";
     private static final String SELECT_COMPTE_TYPE = "SELECT * FROM compte WHERE type_compte = ?";
     private static final String SELECT_COMPTE_BY_ID = "SELECT * FROM compte WHERE id = ?";
     private static final String DELETE_COMPTE = "DELETE FROM compte WHERE id = ?";
